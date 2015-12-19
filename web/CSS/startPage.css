@@ -1,0 +1,27 @@
+div {
+    border-width: 5px;
+    border-color: dimgray;
+    border-style: double;
+    position: fixed;
+    margin-left: 600px;
+    margin-top: 300px;
+    padding: 0;
+    width: 600px;
+    border-radius: 11px;
+    -webkit-box-shadow: inset 0px 0px 15px darkgray;
+}
+
+.button {
+    border-style: solid;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    font-size: 17px;
+    padding: 10px 10px 10px 10px;
+    text-decoration: none;
+    display: block;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 1);
+    font-weight: bold;
+    background-image: linear-gradient(to bottom, #F9F9F9, #B0B0B0);
+    margin: 20px;
+    width: 550px;
+}
