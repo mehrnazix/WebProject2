@@ -17,22 +17,24 @@ public class Course {
         this.setCode(code);
         this.setCoefficient(coefficient);
         this.setTeacherId(teacherId);
+//        this.setTeacher(teacher);
 
     }
 
-    private String Name;
-    private int Code;
+    private String name;
+    private int code;
     private int courseId;
-    private int Coefficient;
-    private int TeacherId;
+    private int coefficient;
+    private int teacherId;
+    private Teacher teacher;
 
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public int getCourseId() {
@@ -44,31 +46,34 @@ public class Course {
     }
 
     public int getCoefficient() {
-        return Coefficient;
+        return coefficient;
     }
 
     public void setCoefficient(Integer coefficient) {
-        Coefficient = coefficient;
+        this.coefficient = coefficient;
     }
 
     public int getCode() {
-        return Code;
+        return code;
     }
 
     public void setCode(int code) {
-        Code = code;
+        this.code = code;
     }
 
     public int getTeacherId() {
-        return TeacherId;
+        return teacherId;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public Teacher getTeacher() {
 
-
         try {
             Controller controller = new Controller();
-            return controller.loadTeacher(this.TeacherId);
+            return controller.loadTeacher(this.teacherId);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,14 +81,17 @@ public class Course {
             e.printStackTrace();
         }
         return null;
+
     }
 
     public void setTeacherId(int teacherId) {
-        TeacherId = teacherId;
+        this.teacherId = teacherId;
     }
 
     @Override
     public String toString() {
         return getName() + " - " + getTeacher();
     }
+
+
 }

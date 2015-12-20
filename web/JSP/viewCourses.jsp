@@ -6,7 +6,7 @@
   <title>Course List</title>
   <link rel="stylesheet" type="text/css" href="/CSS/formsStyle.css">
 
-  <input type="button" value="Add Course" class="init-button" onclick="window.location.href='/course/create'">
+  <input type="button" value="Add Course" class="init-button" onclick="window.location.href='/admin/createCourse'">
 </head>
 
 <body>

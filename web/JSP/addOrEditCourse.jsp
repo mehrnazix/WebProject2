@@ -1,6 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 
 <html>
 <head>
@@ -9,7 +8,7 @@
 </head>
 <body>
 <div class="form-add-new">
-    <form method="post" action="/course/save">
+    <form method="post" action="/admin/saveCourse">
         <input type="hidden" name="id" value="${course.getCourseId()}">
 
         <fieldset>
@@ -35,7 +34,7 @@
                 <select name="teacherId">
                     <option selected value="${course.getTeacherId()}">${course.getTeacher()}</option>
                 <c:forEach var="teacher" items="${teachers}">
-                    <option value="${teacher.getId()}">${teacher}</option>
+                    <option value="${teacher.getTeacherId()}">${teacher}</option>
                 </c:forEach>
 
                 </select>
@@ -49,5 +48,6 @@
         </fieldset>
     </form>
 </div>
+<script type="text/javascript" src="/JS/courseValidation.js"></script>
 </body>
 </html>

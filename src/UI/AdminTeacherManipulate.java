@@ -29,24 +29,15 @@ public class AdminTeacherManipulate {
     }
 
 
-    public void view() {
+    public void view() throws SQLException, ServletException, IOException {
 
-        try {
-            List<Teacher> teachers = controller.loadTeachers();
-            HttpSession session = request.getSession();
-            session.setAttribute("teacherList", teachers);
+        List<Teacher> teachers = controller.loadTeachers();
+        HttpSession session = request.getSession();
+        session.setAttribute("teacherList", teachers);
 
-            RequestDispatcher view = request.getRequestDispatcher("/JSP/viewTeachers.jsp");
-            view.forward(request, response);
+        RequestDispatcher view = request.getRequestDispatcher("/JSP/viewTeachers.jsp");
+        view.forward(request, response);
 
-        } catch (SQLException e) {
-            System.out.println("Can not load Teacher List because of error in select query: ");
-            System.out.println(e.getMessage());
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /*create new teacher: use in url*/
@@ -56,40 +47,24 @@ public class AdminTeacherManipulate {
     }
 
     /*update selected teacher: use in url*/
-    public void update() throws ServletException, IOException {
+    public void update() throws SQLException, ServletException, IOException {
 
         int teacherId = (int) request.getAttribute("id");
+        Teacher teacher = controller.loadTeacher(teacherId);
+        redirectToAddOrEditTeacherJsp(teacher);
 
-        try {
-            Teacher teacher = controller.loadTeacher(teacherId);
-            redirectToAddOrEditTeacherJsp(teacher);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     /*delete selected teacher: use in url*/
-    public void delete() {
+    public void delete() throws SQLException, IOException {
 
         int teacherId = (int) request.getAttribute("id");
-
-        try {
-            controller.deleteTeacher(teacherId);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            response.sendRedirect("/admin/viewTeachers");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        controller.deleteTeacher(teacherId);
+        response.sendRedirect("/admin/viewTeachers");
     }
 
     /*seve selected teacher: use for add and edit teacher in form*/
-    public void save() throws IOException {
+    public void save() throws IOException, SQLException {
 
         Integer teacherId = Integer.parseInt(request.getParameter("teacherId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
@@ -122,24 +97,14 @@ public class AdminTeacherManipulate {
 
     }
 
-    private void addTeacher(Teacher teacher) {
+    private void addTeacher(Teacher teacher) throws SQLException {
 
-        try {
-            controller.addTeacher(teacher);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        controller.addTeacher(teacher);
     }
 
-    private void editTeacher(Teacher teacher) {
+    private void editTeacher(Teacher teacher) throws SQLException {
 
-        try {
-            controller.editTeacher(teacher);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        controller.editTeacher(teacher);
     }
 
 }

@@ -2,12 +2,10 @@ package UI;
 
 import Biz.Controller;
 import Biz.Course;
-import Biz.Course;
 import Biz.Teacher;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,13 +18,13 @@ import java.util.List;
  */
 public class AdminCourseManipulate {
 
-    Controller controller;
-    HttpServletRequest requet;
-    HttpServletResponse response;
+    private Controller controller;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     public AdminCourseManipulate(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
 
-        requet = req;
+        request = req;
         response = res;
 
         controller = new Controller();
@@ -36,43 +34,43 @@ public class AdminCourseManipulate {
     public void view() throws SQLException, ServletException, IOException {
 
         List<Course> courses = controller.loadAllCourses();
-        HttpSession session = requet.getSession();
+        HttpSession session = request.getSession();
         session.setAttribute("courseList", courses);
 
-        RequestDispatcher view = requet.getRequestDispatcher("/JSP/viewCourses.jsp");
-        view.forward(requet, response);
+        RequestDispatcher view = request.getRequestDispatcher("/JSP/viewCourses.jsp");
+        view.forward(request, response);
 
     }
 
     /*create new course: use in url*/
     public void create() throws ServletException, SQLException, IOException {
 
-        dispatchToAddOrEditCourseJsp(new Course());
+        directToAddOrEditCourseJsp(new Course());
     }
 
     /*update selected course: use in url*/
     public void update() throws SQLException, ServletException, IOException {
 
-        int courseId = (int) requet.getAttribute("id");
+        int courseId = (int) request.getAttribute("id");
         Course course = controller.loadCourse(courseId);
-        dispatchToAddOrEditCourseJsp(course);
+        directToAddOrEditCourseJsp(course);
 
     }
 
     public void delete() throws IOException, SQLException {
 
-        int courseId = (int) requet.getAttribute("id");
+        int courseId = (int) request.getAttribute("id");
         controller.deleteCourseFromDatabase(courseId);
-        response.sendRedirect("/course");
+        response.sendRedirect("/admin/viewCourses");
     }
 
-    public void save() throws IOException, ServletException {
+    public void save() throws SQLException, IOException {
 
-        Integer courseId = Integer.parseInt(requet.getParameter("id"));
-        String courseName = requet.getParameter("name");
-        Integer courseCode = Integer.parseInt(requet.getParameter("code"));
-        Integer coefficient = Integer.parseInt(requet.getParameter("coefficient"));
-        Integer courseTeacherId = Integer.parseInt(requet.getParameter("teacherId"));
+        Integer courseId = Integer.parseInt(request.getParameter("id"));
+        String courseName = request.getParameter("name");
+        Integer courseCode = Integer.parseInt(request.getParameter("code"));
+        Integer coefficient = Integer.parseInt(request.getParameter("coefficient"));
+        Integer courseTeacherId = Integer.parseInt(request.getParameter("teacherId"));
 
         Course course = new Course(courseId, courseName, courseCode, coefficient, courseTeacherId);
 
@@ -82,37 +80,27 @@ public class AdminCourseManipulate {
             edit(course);
         }
 
-        response.sendRedirect("/course");
+        response.sendRedirect("/admin/viewCourses");
     }
 
-    private void add(Course course) throws IOException, ServletException {
+    private void add(Course course) throws SQLException {
 
-        try {
-            controller.addCourseToDatabase(course);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        controller.addCourseToDatabase(course);
     }
 
-    private void edit(Course course) {
+    private void edit(Course course) throws SQLException {
 
-        try {
-            controller.editCourseInDatabase(course);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        controller.editCourseInDatabase(course);
     }
 
-    private void dispatchToAddOrEditCourseJsp(Course course) throws SQLException, ServletException, IOException {
+    private void directToAddOrEditCourseJsp(Course course) throws SQLException, ServletException, IOException {
 
         List<Teacher> teachers = controller.loadTeachers();
 
-        requet.setAttribute("course", course);
-        requet.setAttribute("teachers", teachers);
+        request.setAttribute("course", course);
+        request.setAttribute("teachers", teachers);
 
-        RequestDispatcher view = requet.getRequestDispatcher("/JSP/addOrEditCourse.jsp");
-        view.forward(requet, response);
+        RequestDispatcher view = request.getRequestDispatcher("/JSP/addOrEditCourse.jsp");
+        view.forward(request, response);
     }
 }

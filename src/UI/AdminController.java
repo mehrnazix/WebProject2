@@ -35,9 +35,13 @@ public class AdminController extends BaseController {
             adminTeacherManipulate = new AdminTeacherManipulate(Request, Response);
             adminTeacherManipulate.view();
 
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -64,12 +68,20 @@ public class AdminController extends BaseController {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     public void deleteTeacher() {
 
-        adminTeacherManipulate.delete();
+        try {
+            adminTeacherManipulate.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveTeacher() {
@@ -78,6 +90,8 @@ public class AdminController extends BaseController {
             adminTeacherManipulate.save();
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -219,7 +233,7 @@ public class AdminController extends BaseController {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ServletException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

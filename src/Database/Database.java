@@ -380,62 +380,57 @@ public class Database {
 
 
         while (resultSet.next()) {
-            course = new Course(
-                    resultSet.getInt("Id"),
-                    resultSet.getString("Name"),
-                    resultSet.getInt("Code"),
-                    resultSet.getInt("Coefficient"),
-                    resultSet.getInt("teacherId")
-            );
+
+//            Teacher teacher = newTeacher(resultSet);
+            course = newCourse(resultSet);
         }
 
         return course;
     }
 
-    /*Delete Student*/
+    /*Delete Course*/
     public void deleteCourse(Integer courseId) throws SQLException {
 
-        String deleteQuery = "DELETE FROM [HM].[Course]\n" +
-                "      WHERE Id = " + courseId;
+        String deleteQuery = "DELETE FROM HM.Courses WHERE Id = " + courseId;
 
-        PreparedStatement preparedStatementForCourseDeleteQuery = this.connectionString.prepareStatement(deleteQuery);
-        preparedStatementForCourseDeleteQuery.executeUpdate();
+        PreparedStatement ps = this.connectionString.prepareStatement(deleteQuery);
+        ps.executeUpdate();
     }
 
-    /*Add Student*/
+    /*Add Course*/
     public void addCourse(Course course) throws SQLException {
 
-        String insertQuery = "INSERT INTO [HM].[Course]\n" +
-                "           ([Name]\n" +
-                "           ,[Code]\n" +
-                "           ,[Coefficient]" +
-                "           ,[TeacherId])" +
-                "     VALUES\n" +
-                "           ('" + course.getName() + "'" +
-                "            ," + course.getCode() +
-                "            ," + course.getCoefficient() +
-                "            ," + course.getTeacherId() +
-                ")";
+        String insertQuery = "INSERT INTO HM.Courses " +
+                "                (Name ,Code, Coefficient, Teacher_Id)" +
+                "             VALUES (?, ?, ?, ?)";
 
-        PreparedStatement preparedStatementForCourseInsertQuery = this.connectionString.prepareStatement(insertQuery);
-        preparedStatementForCourseInsertQuery.executeUpdate();
+        PreparedStatement ps = this.connectionString.prepareStatement(insertQuery);
+        ps.setString(1, course.getName());
+        ps.setInt(2, course.getCode());
+        ps.setInt(3, course.getCoefficient());
+        ps.setInt(4, course.getTeacherId());
+        ps.executeUpdate();
     }
-
 
     /*Edit Teacher*/
     public void editCourse(Course course) throws SQLException {
 
         String editQuery =
-                "UPDATE [HM].[Course]" +
-                        " SET" +
-                        "   [Name] = '" + course.getName() +
-                        "' ,[Code] = " + course.getCode() +
-                        "  ,[Coefficient] = " + course.getCoefficient() +
-                        "  ,[teacherId] = " + course.getTeacherId() +
-                        " Where [Id] = " + course.getCourseId();
+                " UPDATE HM.Courses" +
+                        " SET " +
+                        "        Name = ? " +
+                        "       ,Code = ? " +
+                        "       ,Coefficient = ?" +
+                        "       ,teacher_Id = ?" +
+                        " Where Id = ?";
 
-        PreparedStatement preparedStatementForCourseEditQuery = this.connectionString.prepareStatement(editQuery);
-        preparedStatementForCourseEditQuery.executeUpdate();
+        PreparedStatement ps = this.connectionString.prepareStatement(editQuery);
+        ps.setString(1, course.getName());
+        ps.setInt(2, course.getCode());
+        ps.setInt(3, course.getCoefficient());
+        ps.setInt(4, course.getTeacherId());
+        ps.setInt(5, course.getCourseId());
+        ps.executeUpdate();
     }
 
     private Course newCourse(ResultSet resultSet) throws SQLException {
