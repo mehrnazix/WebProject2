@@ -35,21 +35,21 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>StudentViewForAdmin</servlet-name>
-        <servlet-class>UI.AdminStudentManipulate</servlet-class>
+        <servlet-name>Student</servlet-name>
+        <servlet-class>UI.StudentController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>StudentViewForAdmin</servlet-name>
+        <servlet-name>Student</servlet-name>
         <url-pattern>/student/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Course</servlet-name>
-        <servlet-class>UI.AdminCourseManipulate</servlet-class>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>UI.ChangePasswrod</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Course</servlet-name>
-        <url-pattern>/course/*</url-pattern>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
     </servlet-mapping>
 
 

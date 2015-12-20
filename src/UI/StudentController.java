@@ -1,14 +1,14 @@
 package UI;
 
 import Biz.Controller;
-import Biz.Teacher;
+import Biz.Student;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class TeacherController extends BaseController {
+public class StudentController extends BaseController {
 
     Controller controller;
 
@@ -16,9 +16,8 @@ public class TeacherController extends BaseController {
 
         try {
             controller = new Controller();
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/teacherPage.jsp");
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/studentPage.jsp");
             view.forward(Request, Response);
-//            Response.sendRedirect("/JSP/teacherPage.jsp");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -36,9 +35,9 @@ public class TeacherController extends BaseController {
         int userId = (int) Request.getSession().getAttribute("userId");
 
         try {
-            Teacher teacher = controller.loadTeacherByUserId(userId);
-            Request.setAttribute("teacher", teacher);
-            Request.getRequestDispatcher("/JSP/profileTeacher.jsp").forward(Request, Response);
+            Student student = controller.loadStudentByUserId(userId);
+            Request.setAttribute("student", student);
+            Request.getRequestDispatcher("/JSP/profileStudent.jsp").forward(Request, Response);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,9 +46,7 @@ public class TeacherController extends BaseController {
         } catch (ServletException e) {
             e.printStackTrace();
         }
-    }
 
-    public void changePassword(){
 
     }
 

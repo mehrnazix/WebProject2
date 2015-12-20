@@ -355,6 +355,25 @@ public class Database {
 
     }
 
+    /*Load Teacher by UserId*/
+    public Student loadStudentByUserId(int userId) throws SQLException {
+
+        String loadQuery = "select s.id student_id, u.* " +
+                "             from hm.Students s " +
+                "       inner join hm.users u " +
+                "               on s.user_id = u.id " +
+                "            where u.id = ?";
+        PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
+        ps.setInt(1, userId);
+        ResultSet resultSet = ps.executeQuery();
+
+        if (resultSet != null && resultSet.next()) {
+            return newStudent(resultSet);
+        }
+
+        return null;
+    }
+
 
     /*************
      * ********* Course

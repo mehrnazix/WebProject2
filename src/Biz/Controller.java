@@ -67,6 +67,10 @@ public class Controller {
         database.deleteStudent(studentId);
     }
 
+    public Student loadStudentByUserId(Integer userId) throws SQLException {
+        return database.loadStudentByUserId(userId);
+    }
+
     /* Course */
     public List<Course> loadAllCourses() throws SQLException {
         return database.loadAllCourses();
