@@ -239,6 +239,24 @@ public class Database {
         ps.executeUpdate();
     }
 
+    /*Load Teacher by UserId*/
+    public Teacher loadTeacherByUserId(int userId) throws SQLException {
+
+        String loadQuery = "select t.id teacher_id, u.* " +
+                "             from hm.teachers t " +
+                "       inner join hm.users u " +
+                "               on t.user_id = u.id " +
+                "            where u.id = ?";
+        PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
+        ps.setInt(1, userId);
+        ResultSet resultSet = ps.executeQuery();
+
+        if (resultSet != null && resultSet.next()) {
+            return newTeacher(resultSet);
+        }
+
+        return null;
+    }
 
     /*************
      * ********* Student

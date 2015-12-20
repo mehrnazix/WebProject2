@@ -47,6 +47,7 @@ public class LoginController extends BaseController {
                 }
 
                 try {
+                    Request.getSession().setAttribute("userId", currentUser.getUserId());
                     Response.sendRedirect(url);
                 } catch (IOException e) {
                     e.printStackTrace();

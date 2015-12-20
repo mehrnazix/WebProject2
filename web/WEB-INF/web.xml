@@ -52,12 +52,5 @@
         <url-pattern>/course/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>Class</servlet-name>
-        <servlet-class>UI.ClassController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Class</servlet-name>
-        <url-pattern>/class/*</url-pattern>
-    </servlet-mapping>
+
 </web-app>

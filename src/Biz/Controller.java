@@ -40,6 +40,10 @@ public class Controller {
         database.deleteTeacher(teacherId);
     }
 
+    public Teacher loadTeacherByUserId(Integer userId) throws SQLException {
+        return database.loadTeacherByUserId(userId);
+    }
+
     /*******
      * Student
      *******/
