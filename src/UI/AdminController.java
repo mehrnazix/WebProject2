@@ -1,5 +1,6 @@
 package UI;
 
+import Biz.Course.Course;
 import Biz.Course.CourseBLO;
 import Biz.Student.Student;
 import Biz.Student.StudentBLO;
@@ -89,7 +90,7 @@ public class AdminController extends BaseController {
 
         try {
             int teacherId = (int) Request.getAttribute("id");
-            Teacher teacher = teacherBLO.update(teacherId);
+            Teacher teacher = teacherBLO.loadByTeacherId(teacherId);
             redirectToAddOrEditTeacherJsp(teacher);
 
         } catch (ServletException e) {
@@ -171,7 +172,7 @@ public class AdminController extends BaseController {
         try {
 
             if (studentBLO == null) {
-                studentBLO = new StudentBLO(Request, Response);
+                studentBLO = new StudentBLO();
             }
 
             List<Student> studentList = studentBLO.loadList();
@@ -201,7 +202,7 @@ public class AdminController extends BaseController {
         }
 
         try {
-            studentBLO.create();
+            redirectToAddOrEditStudentJsp(new Student());
 
         } catch (ServletException e) {
             e.printStackTrace();
@@ -217,7 +218,9 @@ public class AdminController extends BaseController {
         }
 
         try {
-            studentBLO.update();
+            int studentId = (int) Request.getAttribute("id");
+            Student student = studentBLO.loadByStudentId(studentId);
+            redirectToAddOrEditStudentJsp(student);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -235,7 +238,9 @@ public class AdminController extends BaseController {
         }
 
         try {
-            studentBLO.delete();
+            int studentId = (int) Request.getAttribute("id");
+            studentBLO.delete(studentId);
+            Response.sendRedirect("/admin/viewStudents");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -251,7 +256,9 @@ public class AdminController extends BaseController {
         }
 
         try {
-            studentBLO.save();
+            Student student = newStudent();
+            studentBLO.save(student);
+            Response.sendRedirect("/admin/viewStudents");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -260,6 +267,29 @@ public class AdminController extends BaseController {
         }
     }
 
+    private void redirectToAddOrEditStudentJsp(Student student) throws ServletException, IOException {
+
+        Request.setAttribute("student", student);
+        RequestDispatcher view = Request.getRequestDispatcher("/JSP/addOrEditStudent.jsp");
+        view.forward(Request, Response);
+    }
+
+    private Student newStudent() {
+
+        int studentId = Integer.parseInt(Request.getParameter("studentId"));
+        int userId = Integer.parseInt(Request.getParameter("userId"));
+        String firstName = Request.getParameter("firstName");
+        String lastName = Request.getParameter("lastName");
+        Integer nationalCode = Integer.parseInt(Request.getParameter("nationalCode"));
+        Integer studentCode = Integer.parseInt(Request.getParameter("code"));
+        String email = Request.getParameter("email");
+        Integer phoneNumber = Integer.parseInt(Request.getParameter("phoneNumber"));
+        Integer mobileNumber = Integer.parseInt(Request.getParameter("mobileNumber"));
+        String address = Request.getParameter("address");
+
+        return new Student(userId, studentId, firstName, lastName, nationalCode, studentCode, email,
+                phoneNumber, mobileNumber, address);
+    }
 
     /******
      * Course
@@ -269,10 +299,15 @@ public class AdminController extends BaseController {
         try {
 
             if (courseBLO == null) {
-                courseBLO = new CourseBLO(Request, Response);
+                courseBLO = new CourseBLO();
             }
 
-            courseBLO.view();
+            List<Course> courses = courseBLO.loadList();
+            HttpSession session = Request.getSession();
+            session.setAttribute("courseList", courses);
+
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewCourses.jsp");
+            view.forward(Request, Response);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -292,7 +327,7 @@ public class AdminController extends BaseController {
         }
 
         try {
-            courseBLO.create();
+            directToAddOrEditCourseJsp(new Course());
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -310,7 +345,9 @@ public class AdminController extends BaseController {
         }
 
         try {
-            courseBLO.update();
+            int courseId = (int) Request.getAttribute("id");
+            Course course = courseBLO.loadByCourseId(courseId);
+            directToAddOrEditCourseJsp(course);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -328,7 +365,10 @@ public class AdminController extends BaseController {
         }
 
         try {
-            courseBLO.delete();
+            int courseId = (int) Request.getAttribute("id");
+            courseBLO.delete(courseId);
+            Response.sendRedirect("/admin/viewCourses");
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -343,13 +383,36 @@ public class AdminController extends BaseController {
         }
 
         try {
-            courseBLO.save();
+            Course course = newCourse();
+            courseBLO.save(course);
+            Response.sendRedirect("/admin/viewCourses");
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private Course newCourse() {
+        Integer courseId = Integer.parseInt(Request.getParameter("id"));
+        String courseName = Request.getParameter("name");
+        Integer courseCode = Integer.parseInt(Request.getParameter("code"));
+        Integer coefficient = Integer.parseInt(Request.getParameter("coefficient"));
+        Integer courseTeacherId = Integer.parseInt(Request.getParameter("teacherId"));
+
+        return new Course(courseId, courseName, courseCode, coefficient, courseTeacherId);
+    }
+
+    private void directToAddOrEditCourseJsp(Course course) throws SQLException, ServletException, IOException {
+
+        List<Teacher> teachers = courseBLO.loadTeacherList();
+
+        Request.setAttribute("course", course);
+        Request.setAttribute("teachers", teachers);
+
+        RequestDispatcher view = Request.getRequestDispatcher("/JSP/addOrEditCourse.jsp");
+        view.forward(Request, Response);
     }
 
 }

@@ -17,17 +17,9 @@ import java.util.List;
 public class StudentBLO {
 
     StudentDAO studentDAO;
-    HttpServletRequest request;
-    HttpServletResponse response;
 
-    public StudentBLO() {
+    public StudentBLO() throws SQLException, ClassNotFoundException {
 
-    }
-
-    public StudentBLO(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
-
-        request = req;
-        response = res;
         studentDAO = new StudentDAO();
     }
 
@@ -49,28 +41,12 @@ public class StudentBLO {
 
     }
 
-    public void create() throws ServletException, IOException {
+    public void delete(int studentId) throws IOException, SQLException {
 
-        redirectToAddOrEditStudentJsp(new Student());
-    }
-
-    public void update() throws SQLException, ServletException, IOException {
-
-        int studentId = (int) request.getAttribute("id");
-        Student student = studentDAO.loadByStudentId(studentId);
-        redirectToAddOrEditStudentJsp(student);
-    }
-
-    public void delete() throws IOException, SQLException {
-
-        int studentId = (int) request.getAttribute("id");
         studentDAO.delete(studentId);
-        response.sendRedirect("/admin/viewStudents");
     }
 
-    public void save() throws SQLException, IOException {
-
-        Student student = newStudent();
+    public void save(Student student) throws SQLException, IOException {
 
         if (student.getStudentId() == 0) {
             add(student);
@@ -79,25 +55,6 @@ public class StudentBLO {
             edit(student);
 
         }
-
-        response.sendRedirect("/admin/viewStudents");
-    }
-
-    private Student newStudent() {
-
-        int studentId = Integer.parseInt(request.getParameter("studentId"));
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        Integer nationalCode = Integer.parseInt(request.getParameter("nationalCode"));
-        Integer studentCode = Integer.parseInt(request.getParameter("code"));
-        String email = request.getParameter("email");
-        Integer phoneNumber = Integer.parseInt(request.getParameter("phoneNumber"));
-        Integer mobileNumber = Integer.parseInt(request.getParameter("mobileNumber"));
-        String address = request.getParameter("address");
-
-        return new Student(userId, studentId, firstName, lastName, nationalCode, studentCode, email,
-                phoneNumber, mobileNumber, address);
     }
 
     private void add(Student student) throws SQLException {
@@ -110,12 +67,6 @@ public class StudentBLO {
         studentDAO.update(student);
     }
 
-    private void redirectToAddOrEditStudentJsp(Student student) throws ServletException, IOException {
-
-        request.setAttribute("student", student);
-        RequestDispatcher view = request.getRequestDispatcher("/JSP/addOrEditStudent.jsp");
-        view.forward(request, response);
-    }
 }
 
 

@@ -18,8 +18,6 @@ import java.util.List;
 public class TeacherBLO {
 
     private TeacherDAO teacherDAO;
-//    private HttpServletRequest request;
-//    private HttpServletResponse response;
 
     public TeacherBLO() throws SQLException, ClassNotFoundException {
 
@@ -41,12 +39,6 @@ public class TeacherBLO {
     public Teacher loadByUserId(int userId) throws SQLException, ServletException, IOException {
 
         return teacherDAO.loadByUserId(userId);
-
-    }
-
-    public Teacher update(int teacherId) throws SQLException, ServletException, IOException {
-
-        return teacherDAO.loadByTeacherId(teacherId);
 
     }
 

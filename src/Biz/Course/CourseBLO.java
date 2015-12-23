@@ -19,68 +19,39 @@ import java.util.List;
 public class CourseBLO {
 
     private CourseDAO courseDAO;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
 
-    public CourseBLO(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
-
-        request = req;
-        response = res;
+    public CourseBLO() throws SQLException, ClassNotFoundException {
 
         courseDAO = new CourseDAO();
     }
 
-    /*main page: use in url*/
-    public void view() throws SQLException, ServletException, IOException {
+    public List<Course> loadList() throws SQLException, ServletException, IOException {
 
-        List<Course> courses = courseDAO.loadList();
-        HttpSession session = request.getSession();
-        session.setAttribute("courseList", courses);
-
-        RequestDispatcher view = request.getRequestDispatcher("/JSP/viewCourses.jsp");
-        view.forward(request, response);
-
+        return courseDAO.loadList();
     }
 
-    /*create new course: use in url*/
-    public void create() throws ServletException, SQLException, IOException {
+    public Course loadByCourseId(int courseId) throws SQLException, ServletException, IOException {
 
-        directToAddOrEditCourseJsp(new Course());
+        return courseDAO.loadByCourseId(courseId);
     }
 
-    /*update selected course: use in url*/
-    public void update() throws SQLException, ServletException, IOException {
+    public List<Teacher> loadTeacherList() throws SQLException, ServletException, IOException {
 
-        int courseId = (int) request.getAttribute("id");
-        Course course = courseDAO.loadByCourseId(courseId);
-        directToAddOrEditCourseJsp(course);
-
+        return courseDAO.loadTeacherList();
     }
 
-    public void delete() throws IOException, SQLException {
+    public void delete(int courseId) throws IOException, SQLException {
 
-        int courseId = (int) request.getAttribute("id");
         courseDAO.delete(courseId);
-        response.sendRedirect("/admin/viewCourses");
     }
 
-    public void save() throws SQLException, IOException {
+    public void save(Course course) throws SQLException, IOException {
 
-        Integer courseId = Integer.parseInt(request.getParameter("id"));
-        String courseName = request.getParameter("name");
-        Integer courseCode = Integer.parseInt(request.getParameter("code"));
-        Integer coefficient = Integer.parseInt(request.getParameter("coefficient"));
-        Integer courseTeacherId = Integer.parseInt(request.getParameter("teacherId"));
-
-        Course course = new Course(courseId, courseName, courseCode, coefficient, courseTeacherId);
-
-        if (courseId == 0) {
+        if (course.getCourseId() == 0) {
             add(course);
         } else {
             edit(course);
         }
-
-        response.sendRedirect("/admin/viewCourses");
     }
 
     private void add(Course course) throws SQLException {
@@ -93,14 +64,5 @@ public class CourseBLO {
         courseDAO.update(course);
     }
 
-    private void directToAddOrEditCourseJsp(Course course) throws SQLException, ServletException, IOException {
 
-        List<Teacher> teachers = courseDAO.loadTeacherList();
-
-        request.setAttribute("course", course);
-        request.setAttribute("teachers", teachers);
-
-        RequestDispatcher view = request.getRequestDispatcher("/JSP/addOrEditCourse.jsp");
-        view.forward(request, response);
-    }
 }
