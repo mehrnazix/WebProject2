@@ -9,7 +9,7 @@
 <body>
 
 <div class="form-add-new">
-    <form name="changePassword" method="post" action="/changePassword" onsubmit="return validateForm();">
+    <form name="changePassword" method="post" action="/student/saveChangePassword" onsubmit="return validateChangePasswordForm();">
         <input type="hidden" name="userId" value="${user.getUserId()}">
 
         <fieldset>
@@ -17,17 +17,27 @@
 
             <label>
                 <span>Username :</span>
-                <input type="text"  id="username" name="username" value="${user.getUsername()}"/>
+                <input type="text" readonly id="username" name="username" value="${user.getUsername()}"/>
             </label>
 
             <label>
-                <span>Password : </span>
-                <input type="text" name="password" value="${user.getPassword()}"/>
+                <span>Old Password : </span>
+                <input type="password" name="oldPassword" id="oldPassword"/>
             </label>
 
             <label>
-                <input type="submit" value="Save">
-                <input type="button" value="Cancel" onclick="window.location.href='/admin/viewTeachers'">
+                <span>New Password : </span>
+                <input type="password" name="newPassword" id="newPassword"/>
+            </label>
+
+            <label>
+                <span>Confirm Password : </span>
+                <input type="password" name="confirmPassword" id="confirmPassword"/>
+            </label>
+
+            <label>
+                <input type="submit" value="Save" >
+                <input type="button" value="Cancel" >
             </label>
             <label>
                 <div class="requiredField">* Fields are required!</div>
@@ -36,6 +46,6 @@
     </form>
 </div>
 
-<script type="text/javascript" src="/JS/teacherValidation.js"></script>
+<script type="text/javascript" src="/JS/changePasswordValidation.js"></script>
 </body>
 </html>

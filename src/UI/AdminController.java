@@ -1,16 +1,24 @@
 package UI;
 
+import Biz.Course.CourseBLO;
+import Biz.Student.Student;
+import Biz.Student.StudentBLO;
+import Biz.Teacher.Teacher;
+import Biz.Teacher.TeacherBLO;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 
 public class AdminController extends BaseController {
 
-    AdminTeacherManipulate adminTeacherManipulate;
-    AdminStudentManipulate adminStudentManipulate;
-    AdminCourseManipulate adminCourseManipulate;
+    TeacherBLO teacherBLO;
+    StudentBLO studentBLO;
+    CourseBLO courseBLO;
 
     /*main page: use in url*/
     public void index() {
@@ -32,8 +40,18 @@ public class AdminController extends BaseController {
     public void viewTeachers() {
 
         try {
-            adminTeacherManipulate = new AdminTeacherManipulate(Request, Response);
-            adminTeacherManipulate.view();
+
+            if (teacherBLO == null) {
+                teacherBLO = new TeacherBLO();
+            }
+            List<Teacher> teachers = teacherBLO.loadList();
+
+            HttpSession session = Request.getSession();
+            session.setAttribute("teacherList", teachers);
+
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewTeachers.jsp");
+            view.forward(Request, Response);
+
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -49,8 +67,12 @@ public class AdminController extends BaseController {
 
     public void createTeacher() {
 
+        if (teacherBLO == null) {
+            viewTeachers();
+        }
+
         try {
-            adminTeacherManipulate.create();
+            redirectToAddOrEditTeacherJsp(new Teacher());
 
         } catch (ServletException e) {
             e.printStackTrace();
@@ -61,8 +83,14 @@ public class AdminController extends BaseController {
 
     public void updateTeacher() {
 
+        if (teacherBLO == null) {
+            viewTeachers();
+        }
+
         try {
-            adminTeacherManipulate.update();
+            int teacherId = (int) Request.getAttribute("id");
+            Teacher teacher = teacherBLO.update(teacherId);
+            redirectToAddOrEditTeacherJsp(teacher);
 
         } catch (ServletException e) {
             e.printStackTrace();
@@ -75,8 +103,15 @@ public class AdminController extends BaseController {
 
     public void deleteTeacher() {
 
+        if (teacherBLO == null) {
+            viewTeachers();
+        }
+
         try {
-            adminTeacherManipulate.delete();
+            int teacherId = (int) Request.getAttribute("id");
+            teacherBLO.delete(teacherId);
+            Response.sendRedirect("/admin/viewTeachers");
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -86,8 +121,15 @@ public class AdminController extends BaseController {
 
     public void saveTeacher() {
 
+        if (teacherBLO == null) {
+            viewTeachers();
+        }
+
         try {
-            adminTeacherManipulate.save();
+            Teacher teacher = newTeacher();
+            teacherBLO.save(teacher);
+
+            Response.sendRedirect("/admin/viewTeachers");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,6 +138,30 @@ public class AdminController extends BaseController {
         }
     }
 
+    private void redirectToAddOrEditTeacherJsp(Teacher teacher) throws ServletException, IOException {
+
+        Request.setAttribute("teacher", teacher);
+        RequestDispatcher view = Request.getRequestDispatcher("/JSP/addOrEditTeacher.jsp");
+        view.forward(Request, Response);
+
+    }
+
+    private Teacher newTeacher() {
+
+        int teacherId = Integer.parseInt(Request.getParameter("teacherId"));
+        int userId = Integer.parseInt(Request.getParameter("userId"));
+        String firstName = Request.getParameter("firstName");
+        String lastName = Request.getParameter("lastName");
+        int nationalCode = Integer.parseInt(Request.getParameter("nationalCode"));
+        int teacherCode = Integer.parseInt(Request.getParameter("code"));
+        String email = Request.getParameter("email");
+        int phoneNumber = Integer.parseInt(Request.getParameter("phoneNumber"));
+        int mobileNumber = Integer.parseInt(Request.getParameter("mobileNumber"));
+        String address = Request.getParameter("address");
+
+        return new Teacher(userId, teacherId, firstName, lastName, nationalCode, teacherCode, email,
+                phoneNumber, mobileNumber, address);
+    }
 
     /******
      * Student
@@ -103,8 +169,19 @@ public class AdminController extends BaseController {
     public void viewStudents() {
 
         try {
-            adminStudentManipulate = new AdminStudentManipulate(Request, Response);
-            adminStudentManipulate.view();
+
+            if (studentBLO == null) {
+                studentBLO = new StudentBLO(Request, Response);
+            }
+
+            List<Student> studentList = studentBLO.loadList();
+
+
+            HttpSession session = Request.getSession();
+            session.setAttribute("studentList", studentList);
+
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewStudents.jsp");
+            view.forward(Request, Response);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,8 +196,12 @@ public class AdminController extends BaseController {
 
     public void createStudent() {
 
+        if (studentBLO == null) {
+            viewStudents();
+        }
+
         try {
-            adminStudentManipulate.create();
+            studentBLO.create();
 
         } catch (ServletException e) {
             e.printStackTrace();
@@ -131,8 +212,12 @@ public class AdminController extends BaseController {
 
     public void updateStudent() {
 
+        if (studentBLO == null) {
+            viewStudents();
+        }
+
         try {
-            adminStudentManipulate.update();
+            studentBLO.update();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -145,8 +230,12 @@ public class AdminController extends BaseController {
 
     public void deleteStudent() {
 
+        if (studentBLO == null) {
+            viewStudents();
+        }
+
         try {
-            adminStudentManipulate.delete();
+            studentBLO.delete();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,8 +246,12 @@ public class AdminController extends BaseController {
 
     public void saveStudent() {
 
+        if (studentBLO == null) {
+            viewStudents();
+        }
+
         try {
-            adminStudentManipulate.save();
+            studentBLO.save();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -167,14 +260,19 @@ public class AdminController extends BaseController {
         }
     }
 
+
     /******
      * Course
      ******/
     public void viewCourses() {
 
         try {
-            adminCourseManipulate = new AdminCourseManipulate(Request, Response);
-            adminCourseManipulate.view();
+
+            if (courseBLO == null) {
+                courseBLO = new CourseBLO(Request, Response);
+            }
+
+            courseBLO.view();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -189,8 +287,12 @@ public class AdminController extends BaseController {
 
     public void createCourse() {
 
+        if (courseBLO == null) {
+            viewCourses();
+        }
+
         try {
-            adminCourseManipulate.create();
+            courseBLO.create();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -203,8 +305,12 @@ public class AdminController extends BaseController {
 
     public void updateCourse() {
 
+        if (courseBLO == null) {
+            viewCourses();
+        }
+
         try {
-            adminCourseManipulate.update();
+            courseBLO.update();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,8 +323,12 @@ public class AdminController extends BaseController {
 
     public void deleteCourse() {
 
+        if (courseBLO == null) {
+            viewCourses();
+        }
+
         try {
-            adminCourseManipulate.delete();
+            courseBLO.delete();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -228,8 +338,12 @@ public class AdminController extends BaseController {
 
     public void saveCourse() {
 
+        if (courseBLO == null) {
+            viewCourses();
+        }
+
         try {
-            adminCourseManipulate.save();
+            courseBLO.save();
 
         } catch (IOException e) {
             e.printStackTrace();

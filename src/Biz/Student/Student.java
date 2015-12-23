@@ -1,4 +1,6 @@
-package Biz;
+package Biz.Student;
+
+import Biz.User.User;
 
 /**
  * Created by 931664 on 11/11/2015.
@@ -27,4 +29,6 @@ public class Student extends User {
     public void setStudentId(int id) {
         this.studentId = id;
     }
+
+
 }

@@ -17,7 +17,7 @@
 
         <input type="button" class="button_in_start_page" value="Profile" onclick="window.location.href='/student/profile'">
         <input type="button" class="button_in_start_page" value="Grade" onclick="window.location.href='/student/grade'">
-        <input type="button" class="button_in_start_page" value="Change Password" onclick="window.location.href='/changePassword'">
+        <input type="button" class="button_in_start_page" value="Change Password" onclick="window.location.href='/student/changePassword'">
 
     </fieldset>
 </div>

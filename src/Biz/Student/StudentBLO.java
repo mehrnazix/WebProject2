@@ -1,13 +1,12 @@
-package UI;
+package Biz.Student;
 
-import Biz.Controller;
-import Biz.Student;
+import Biz.Student.Student;
+import DAO.StudentDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,52 +14,76 @@ import java.util.List;
 /**
  * Created by 931664 on 12/6/2015.
  */
-public class AdminStudentManipulate {
+public class StudentBLO {
 
-    Controller controller;
+    StudentDAO studentDAO;
     HttpServletRequest request;
     HttpServletResponse response;
 
-    public AdminStudentManipulate(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
+    public StudentBLO() {
+
+    }
+
+    public StudentBLO(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
 
         request = req;
         response = res;
-        controller = new Controller();
+        studentDAO = new StudentDAO();
     }
 
-    /*main page: use in url*/
-    public void view() throws SQLException, ServletException, IOException {
+    public List<Student> loadList() throws SQLException, ServletException, IOException {
 
-        List<Student> students = controller.loadAllStudents();
-        HttpSession session = request.getSession();
-        session.setAttribute("studentList", students);
+        return studentDAO.loadList();
 
-        RequestDispatcher view = request.getRequestDispatcher("/JSP/viewStudents.jsp");
-        view.forward(request, response);
     }
 
-    /*create new student: use in url*/
+    public Student loadByStudentId(int studentId) throws SQLException, ServletException, IOException {
+
+        return studentDAO.loadByStudentId(studentId);
+
+    }
+
+    public Student loadByUserId(int userId) throws SQLException, ServletException, IOException {
+
+        return studentDAO.loadByUserId(userId);
+
+    }
+
     public void create() throws ServletException, IOException {
 
         redirectToAddOrEditStudentJsp(new Student());
     }
 
-    /*update selected student: use in url*/
     public void update() throws SQLException, ServletException, IOException {
 
         int studentId = (int) request.getAttribute("id");
-        Student student = controller.loadStudent(studentId);
+        Student student = studentDAO.loadByStudentId(studentId);
         redirectToAddOrEditStudentJsp(student);
     }
 
     public void delete() throws IOException, SQLException {
 
         int studentId = (int) request.getAttribute("id");
-        controller.deleteStudentFromDatabase(studentId);
+        studentDAO.delete(studentId);
         response.sendRedirect("/admin/viewStudents");
     }
 
     public void save() throws SQLException, IOException {
+
+        Student student = newStudent();
+
+        if (student.getStudentId() == 0) {
+            add(student);
+
+        } else {
+            edit(student);
+
+        }
+
+        response.sendRedirect("/admin/viewStudents");
+    }
+
+    private Student newStudent() {
 
         int studentId = Integer.parseInt(request.getParameter("studentId"));
         int userId = Integer.parseInt(request.getParameter("userId"));
@@ -73,26 +96,18 @@ public class AdminStudentManipulate {
         Integer mobileNumber = Integer.parseInt(request.getParameter("mobileNumber"));
         String address = request.getParameter("address");
 
-        Student student = new Student(userId, studentId, firstName, lastName, nationalCode, studentCode, email,
+        return new Student(userId, studentId, firstName, lastName, nationalCode, studentCode, email,
                 phoneNumber, mobileNumber, address);
-
-        if (studentId == 0) {
-            add(student);
-        } else {
-            edit(student);
-        }
-
-        response.sendRedirect("/admin/viewStudents");
     }
 
     private void add(Student student) throws SQLException {
 
-        controller.addStudentToDatabase(student);
+        studentDAO.create(student);
     }
 
     private void edit(Student student) throws SQLException {
 
-        controller.editStudentInDatabase(student);
+        studentDAO.update(student);
     }
 
     private void redirectToAddOrEditStudentJsp(Student student) throws ServletException, IOException {

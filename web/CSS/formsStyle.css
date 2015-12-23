@@ -92,6 +92,7 @@ legend {
 .form-add-new input[type=time],
 .form-add-new input[type=url],
 .form-add-new input[type=email],
+.form-add-new input[type=password],
 .form-add-new select,
 .form-add-new textarea {
     -webkit-border-radius: 3px;

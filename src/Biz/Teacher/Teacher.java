@@ -1,4 +1,6 @@
-package Biz;
+package Biz.Teacher;
+
+import Biz.User.User;
 
 /**
  * Created by 931664 on 11/11/2015.

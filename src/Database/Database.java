@@ -1,7 +1,9 @@
 package Database;
 
-import Biz.*;
-import Biz.Class;
+import Biz.Course.Course;
+import Biz.Student.Student;
+import Biz.Teacher.Teacher;
+import Biz.User.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class Database {
 
             user = new User(
                     resultSet.getInt("Id"),
+                    resultSet.getString("UserName"),
+                    resultSet.getString("Password"),
                     resultSet.getString("FirstName"),
                     resultSet.getString("LastName"),
                     resultSet.getInt("NationalCode"),
@@ -61,7 +65,38 @@ public class Database {
                     resultSet.getInt("PhoneNumber"),
                     resultSet.getInt("MobileNumber"),
                     resultSet.getString("Address"),
-                    resultSet.getInt("UserTypeId")
+                    resultSet.getInt("userTypeId")
+            );
+        }
+
+        return user;
+    }
+
+    public User loadUserById(int userId) throws SQLException {
+
+        User user = null;
+        String loadQuery = "SELECT u.* FROM JavaTraining.HM.Users AS U  WHERE u.id = ? ";
+
+        PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
+        ps.setInt(1, userId);
+
+        ResultSet resultSet = ps.executeQuery();
+
+        while (resultSet.next()) {
+
+            user = new User(
+                    resultSet.getInt("Id"),
+                    resultSet.getString("UserName"),
+                    resultSet.getString("Password"),
+                    resultSet.getString("FirstName"),
+                    resultSet.getString("LastName"),
+                    resultSet.getInt("NationalCode"),
+                    resultSet.getInt("Code"),
+                    resultSet.getString("Email"),
+                    resultSet.getInt("PhoneNumber"),
+                    resultSet.getInt("MobileNumber"),
+                    resultSet.getString("Address"),
+                    resultSet.getInt("userTypeId")
             );
         }
 
@@ -133,6 +168,17 @@ public class Database {
         ps.setInt(9, user.getUserId());
         ps.executeUpdate();
 
+    }
+
+    public void updatePasswordOfUser(User user) throws SQLException {
+        String editQuery = " UPDATE [HM].[Users]" +
+                "               SET [password] = ?  " +
+                "             Where [Id] = ?";
+
+        PreparedStatement ps = this.connectionString.prepareStatement(editQuery);
+        ps.setString(1, user.getPassword());
+        ps.setInt(2, user.getUserId());
+        ps.executeUpdate();
     }
 
     private void deleteUser(int userId) throws SQLException {
@@ -479,101 +525,101 @@ public class Database {
                 resultSet.getInt("teacher_id")
         );
     }
-
-    /*Classes*/
-    /*Load All Class*/
-    public ArrayList<Class> loadAllClasses() throws SQLException {
-
-        ArrayList classList = new ArrayList();
-        Class cls = null;
-
-        String loadQuery = "SELECT * FROM [HM].[Class] order by Id";
-        PreparedStatement psForLoadQuery = this.connectionString.prepareStatement(loadQuery);
-        ResultSet resultSet = psForLoadQuery.executeQuery();
-
-        while (resultSet.next()) {
-
-            cls = new Class(
-                    resultSet.getInt("Id"),
-                    resultSet.getInt("teacherId"),
-                    resultSet.getInt("courseId"),
-                    resultSet.getString("classNumber"),
-                    resultSet.getString("[ClassDateTime]")
-            );
-
-            classList.add(cls);
-        }
-
-        return classList;
-    }
-
-    /*Load Class*/
-    public Class loadClass(Integer classId) throws SQLException {
-
-
-        Class cls = null;
-
-        String loadQuery = "SELECT * FROM [HM].[Class] where id = " + classId + " order by id ";
-        PreparedStatement psForLoadQuery = this.connectionString.prepareStatement(loadQuery);
-        ResultSet resultSet = psForLoadQuery.executeQuery();
-
-
-        while (resultSet.next()) {
-            cls = new Class(
-                    resultSet.getInt("Id"),
-                    resultSet.getInt("teacherId"),
-                    resultSet.getInt("courseId"),
-                    resultSet.getString("classNumber"),
-                    resultSet.getString("[ClassDateTime]")
-            );
-        }
-
-        return cls;
-    }
-
-    /*Delete Student*/
-    public void deleteClass(int classId) throws SQLException {
-
-        String deleteQuery = "DELETE FROM [HM].[Class]\n" +
-                "      WHERE Id = " + classId;
-
-        PreparedStatement preparedStatementForClassDeleteQuery = this.connectionString.prepareStatement(deleteQuery);
-        preparedStatementForClassDeleteQuery.executeUpdate();
-    }
-
-    /*Add Student*/
-    public void addClass(Class cls) throws SQLException {
-
-        String insertQuery = "INSERT INTO [HM].[Class]\n" +
-                "           ([teacherId]\n" +
-                "           ,[courseId]\n" +
-                "           ,[classNumber]" +
-                "           ,[date]" +
-                "           ,[time])" +
-                "     VALUES( " + cls.getTeacherId() +
-                "            ," + cls.getCourseId() +
-                "            ,'" + cls.getClassNumber() + "'" +
-                "            ,'" + cls.getClassDateTime() + "'" +
-                ")";
-
-        PreparedStatement preparedStatementForClassInsertQuery = this.connectionString.prepareStatement(insertQuery);
-        preparedStatementForClassInsertQuery.executeUpdate();
-    }
-
-
-    /*Edit Teacher*/
-    public void editClass(Class cls) throws SQLException {
-
-        String editQuery =
-                "UPDATE [HM].[Class]" +
-                        " SET" +
-                        "   [teacherId] = '" + cls.getTeacherId() +
-                        "' ,[courseId] = " + cls.getCourseId() +
-                        "  ,[classNumber] = " + cls.getClassNumber() +
-                        "  ,[date] = " + cls.getClassDateTime() +
-                        " Where [Id] = " + cls.getId();
-
-        PreparedStatement preparedStatementForClassEditQuery = this.connectionString.prepareStatement(editQuery);
-        preparedStatementForClassEditQuery.executeUpdate();
-    }
+//
+//    /*Classes*/
+//    /*Load All Class*/
+//    public ArrayList<Class> loadAllClasses() throws SQLException {
+//
+//        ArrayList classList = new ArrayList();
+//        Class cls = null;
+//
+//        String loadQuery = "SELECT * FROM [HM].[Class] order by Id";
+//        PreparedStatement psForLoadQuery = this.connectionString.prepareStatement(loadQuery);
+//        ResultSet resultSet = psForLoadQuery.executeQuery();
+//
+//        while (resultSet.next()) {
+//
+//            cls = new Class(
+//                    resultSet.getInt("Id"),
+//                    resultSet.getInt("teacherId"),
+//                    resultSet.getInt("courseId"),
+//                    resultSet.getString("classNumber"),
+//                    resultSet.getString("[ClassDateTime]")
+//            );
+//
+//            classList.add(cls);
+//        }
+//
+//        return classList;
+//    }
+//
+//    /*Load Class*/
+//    public Class loadClass(Integer classId) throws SQLException {
+//
+//
+//        Class cls = null;
+//
+//        String loadQuery = "SELECT * FROM [HM].[Class] where id = " + classId + " order by id ";
+//        PreparedStatement psForLoadQuery = this.connectionString.prepareStatement(loadQuery);
+//        ResultSet resultSet = psForLoadQuery.executeQuery();
+//
+//
+//        while (resultSet.next()) {
+//            cls = new Class(
+//                    resultSet.getInt("Id"),
+//                    resultSet.getInt("teacherId"),
+//                    resultSet.getInt("courseId"),
+//                    resultSet.getString("classNumber"),
+//                    resultSet.getString("[ClassDateTime]")
+//            );
+//        }
+//
+//        return cls;
+//    }
+//
+//    /*Delete Student*/
+//    public void deleteClass(int classId) throws SQLException {
+//
+//        String deleteQuery = "DELETE FROM [HM].[Class]\n" +
+//                "      WHERE Id = " + classId;
+//
+//        PreparedStatement preparedStatementForClassDeleteQuery = this.connectionString.prepareStatement(deleteQuery);
+//        preparedStatementForClassDeleteQuery.executeUpdate();
+//    }
+//
+//    /*Add Student*/
+//    public void addClass(Class cls) throws SQLException {
+//
+//        String insertQuery = "INSERT INTO [HM].[Class]\n" +
+//                "           ([teacherId]\n" +
+//                "           ,[courseId]\n" +
+//                "           ,[classNumber]" +
+//                "           ,[date]" +
+//                "           ,[time])" +
+//                "     VALUES( " + cls.getTeacherId() +
+//                "            ," + cls.getCourseId() +
+//                "            ,'" + cls.getClassNumber() + "'" +
+//                "            ,'" + cls.getClassDateTime() + "'" +
+//                ")";
+//
+//        PreparedStatement preparedStatementForClassInsertQuery = this.connectionString.prepareStatement(insertQuery);
+//        preparedStatementForClassInsertQuery.executeUpdate();
+//    }
+//
+//
+//    /*Edit Teacher*/
+//    public void editClass(Class cls) throws SQLException {
+//
+//        String editQuery =
+//                "UPDATE [HM].[Class]" +
+//                        " SET" +
+//                        "   [teacherId] = '" + cls.getTeacherId() +
+//                        "' ,[courseId] = " + cls.getCourseId() +
+//                        "  ,[classNumber] = " + cls.getClassNumber() +
+//                        "  ,[date] = " + cls.getClassDateTime() +
+//                        " Where [Id] = " + cls.getId();
+//
+//        PreparedStatement preparedStatementForClassEditQuery = this.connectionString.prepareStatement(editQuery);
+//        preparedStatementForClassEditQuery.executeUpdate();
+//    }
 }

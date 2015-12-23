@@ -1,7 +1,7 @@
 package UI;
 
-import Biz.Controller;
-import Biz.User;
+import Biz.User.User;
+import Biz.User.UserBLO;
 
 
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 @WebServlet(name = "LoginController")
 public class LoginController extends BaseController {
 
-    Controller controller;
+    UserBLO userBLO;
 
     public void login() {
 
@@ -24,11 +24,13 @@ public class LoginController extends BaseController {
         String password = Request.getParameter("password");
         String url = null;
 
-
         try {
 
-            controller = new Controller();
-            User currentUser = controller.loadUser(userName, password);
+            if (userBLO == null) {
+
+                userBLO = new UserBLO();
+            }
+            User currentUser = userBLO.loadByUsernameAndPassword(userName, password);
 
             if (currentUser != null) {
 
@@ -47,8 +49,10 @@ public class LoginController extends BaseController {
                 }
 
                 try {
-                    Request.getSession().setAttribute("userId", currentUser.getUserId());
+                    Request.getSession().setAttribute("user", currentUser);
+                    Request.getSession().setAttribute("userId",currentUser.getUserId());
                     Response.sendRedirect(url);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

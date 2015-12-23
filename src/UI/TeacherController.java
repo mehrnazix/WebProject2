@@ -1,7 +1,8 @@
 package UI;
 
-import Biz.Controller;
-import Biz.Teacher;
+import Biz.ChangePasswordBLO;
+import Biz.Teacher.Teacher;
+import Biz.Teacher.TeacherBLO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,15 +11,20 @@ import java.sql.SQLException;
 
 public class TeacherController extends BaseController {
 
-    Controller controller;
+    TeacherBLO teacherBLO;
+    ChangePasswordBLO changePasswordBLO;
 
     public void index() {
 
         try {
-            controller = new Controller();
+            if (teacherBLO == null) {
+
+                teacherBLO = new TeacherBLO();
+            }
+
             RequestDispatcher view = Request.getRequestDispatcher("/JSP/teacherPage.jsp");
             view.forward(Request, Response);
-//            Response.sendRedirect("/JSP/teacherPage.jsp");
+
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -33,24 +39,56 @@ public class TeacherController extends BaseController {
 
     public void profile() {
 
-        int userId = (int) Request.getSession().getAttribute("userId");
+        if (teacherBLO == null)
+            index();
+
+        int userId = (int) Request.getSession().getAttribute("user");
 
         try {
-            Teacher teacher = controller.loadTeacherByUserId(userId);
-            Request.setAttribute("teacher", teacher);
+            Teacher teacher = teacherBLO.loadByUserId(userId);
+            Request.setAttribute("teacher",teacher);
             Request.getRequestDispatcher("/JSP/profileTeacher.jsp").forward(Request, Response);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServletException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void changePassword(){
+    public void changePassword() {
 
+        if (changePasswordBLO == null) {
+            try {
+                changePasswordBLO = new ChangePasswordBLO(Request, Response);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        changePasswordBLO.view();
+    }
+
+    public void saveChangePassword() {
+
+        if (changePasswordBLO == null) {
+            try {
+                changePasswordBLO = new ChangePasswordBLO(Request, Response);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        changePasswordBLO.save();
+        index();
     }
 
 }

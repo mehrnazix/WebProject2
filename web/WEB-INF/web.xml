@@ -45,11 +45,11 @@
 
     <servlet>
         <servlet-name>ChangePassword</servlet-name>
-        <servlet-class>UI.ChangePasswrod</servlet-class>
+        <servlet-class>UI.ChangePassword</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ChangePassword</servlet-name>
-        <url-pattern>/changePassword</url-pattern>
+        <url-pattern>/changePassword/*</url-pattern>
     </servlet-mapping>
 
 

@@ -1,8 +1,8 @@
-package UI;
+package Biz.Course;
 
-import Biz.Controller;
-import Biz.Course;
-import Biz.Teacher;
+import Biz.Course.Course;
+import Biz.Teacher.Teacher;
+import DAO.CourseDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,24 +16,24 @@ import java.util.List;
 /**
  * Created by 931664 on 12/6/2015.
  */
-public class AdminCourseManipulate {
+public class CourseBLO {
 
-    private Controller controller;
+    private CourseDAO courseDAO;
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public AdminCourseManipulate(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
+    public CourseBLO(HttpServletRequest req, HttpServletResponse res) throws SQLException, ClassNotFoundException {
 
         request = req;
         response = res;
 
-        controller = new Controller();
+        courseDAO = new CourseDAO();
     }
 
     /*main page: use in url*/
     public void view() throws SQLException, ServletException, IOException {
 
-        List<Course> courses = controller.loadAllCourses();
+        List<Course> courses = courseDAO.loadList();
         HttpSession session = request.getSession();
         session.setAttribute("courseList", courses);
 
@@ -52,7 +52,7 @@ public class AdminCourseManipulate {
     public void update() throws SQLException, ServletException, IOException {
 
         int courseId = (int) request.getAttribute("id");
-        Course course = controller.loadCourse(courseId);
+        Course course = courseDAO.loadByCourseId(courseId);
         directToAddOrEditCourseJsp(course);
 
     }
@@ -60,7 +60,7 @@ public class AdminCourseManipulate {
     public void delete() throws IOException, SQLException {
 
         int courseId = (int) request.getAttribute("id");
-        controller.deleteCourseFromDatabase(courseId);
+        courseDAO.delete(courseId);
         response.sendRedirect("/admin/viewCourses");
     }
 
@@ -85,17 +85,17 @@ public class AdminCourseManipulate {
 
     private void add(Course course) throws SQLException {
 
-        controller.addCourseToDatabase(course);
+        courseDAO.create(course);
     }
 
     private void edit(Course course) throws SQLException {
 
-        controller.editCourseInDatabase(course);
+        courseDAO.update(course);
     }
 
     private void directToAddOrEditCourseJsp(Course course) throws SQLException, ServletException, IOException {
 
-        List<Teacher> teachers = controller.loadTeachers();
+        List<Teacher> teachers = courseDAO.loadTeacherList();
 
         request.setAttribute("course", course);
         request.setAttribute("teachers", teachers);

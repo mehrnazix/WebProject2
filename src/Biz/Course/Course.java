@@ -1,5 +1,10 @@
-package Biz;
+package Biz.Course;
 
+import Biz.Teacher.Teacher;
+import Biz.Teacher.TeacherBLO;
+
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -72,10 +77,14 @@ public class Course {
     public Teacher getTeacher() {
 
         try {
-            Controller controller = new Controller();
-            return controller.loadTeacher(this.teacherId);
+            TeacherBLO teacherBLO = new TeacherBLO();
+            return teacherBLO.loadByTeacherId(this.teacherId);
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

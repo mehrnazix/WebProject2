@@ -1,4 +1,4 @@
-package Biz;
+package Biz.User;
 
 /**
  * Created by 931664 on 12/13/2015.

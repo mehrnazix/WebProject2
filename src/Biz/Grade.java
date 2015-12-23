@@ -1,5 +1,9 @@
 package Biz;
 
+import Biz.Course.Course;
+import Biz.Student.Student;
+import Biz.Teacher.Teacher;
+
 /**
  * Created by 931664 on 11/25/2015.
  */

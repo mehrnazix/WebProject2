@@ -1,4 +1,4 @@
-package Biz;
+package Biz.User;
 
 /**
  * Created by 931664 on 11/11/2015.
@@ -22,6 +22,21 @@ public class User {
         setMobileNumber(mobileNumber);
         setAddress(address);
         setUserTypeId(userTypeId);
+    }
+
+    public User(int id, String username, String password, String firstName, String lastName, int nationalCode, int userCode, String email,
+                int phoneNumber, int mobileNumber, String address, int userTypeId) {
+
+        this(id, firstName, lastName, nationalCode, userCode, email, phoneNumber, mobileNumber, address, userTypeId);
+
+        setUsername(username);
+        setPassword(password);
+    }
+
+    public User(int id, String password){
+
+        setUserId(id);
+        setPassword(password);
     }
 
     private String userName;
@@ -110,11 +125,11 @@ public class User {
         this.email = email;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUsername(String userName) {
         this.userName = userName;
     }
 
