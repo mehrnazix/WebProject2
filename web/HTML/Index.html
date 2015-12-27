@@ -3,29 +3,31 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Test</title>
+
+
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="CSS/signin.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
-      <div class="form-add-new">
-        <form method="post" action="/index/login">
-            <fieldset>
-                <legend>Login</legend>
 
-                <label>
-                    <span class="required">Username :</span>
-                    <input type="text" name="userName">
-                </label>
+<div class="container">
 
-                <label>
-                    <span class="required">Password : </span>
-                    <input type="password" name="password">
-                </label>
+    <form class="form-signin" method="post" action="/index/login">
+        <h2 class="form-signin-heading"><img src="Icon/Dtafalonso-Modern-Xp-ModernXP-07-Keys.ico" width="80" height="80" >Login</h2>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="text" id="inputEmail" class="form-control" placeholder="Username"  name="userName" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </form>
 
-                <label>
-                    <input type="submit" value="Login">
-                </label>
-            </fieldset>
-        </form>
-    </div>
-
+</div>
 </body>
+
 </html>
