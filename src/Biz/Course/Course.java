@@ -15,6 +15,17 @@ public class Course {
     public Course() {
     }
 
+    public Course(int courseId, String name, int code, int coefficient, Teacher teacher) {
+
+        this.setCourseId(courseId);
+        this.setName(name);
+        this.setCode(code);
+        this.setCoefficient(coefficient);
+        this.setTeacherId(teacher.getTeacherId());
+        this.setTeacher(teacher);
+
+    }
+
     public Course(int courseId, String name, int code, int coefficient, int teacherId) {
 
         this.setCourseId(courseId);
@@ -22,13 +33,12 @@ public class Course {
         this.setCode(code);
         this.setCoefficient(coefficient);
         this.setTeacherId(teacherId);
-//        this.setTeacher(teacher);
 
     }
 
+    private int courseId;
     private String name;
     private int code;
-    private int courseId;
     private int coefficient;
     private int teacherId;
     private Teacher teacher;
@@ -75,22 +85,7 @@ public class Course {
     }
 
     public Teacher getTeacher() {
-
-        try {
-            TeacherBLO teacherBLO = new TeacherBLO();
-            return teacherBLO.loadByTeacherId(this.teacherId);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-
+        return teacher;
     }
 
     public void setTeacherId(int teacherId) {

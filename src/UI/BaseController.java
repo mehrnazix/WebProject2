@@ -26,6 +26,7 @@ public class BaseController extends HttpServlet {
     }
 
     private void callAction() {
+
         String host = "http://" + Request.getHeader("host");
         String url = Request.getRequestURI().replace(host, "");
         RouteData = url.split("/");

@@ -35,12 +35,12 @@ public class TeacherDAO {
 
     public List<Teacher> loadList() throws SQLException {
 
-        return database.loadTeachers();
+        return database.loadAllTeachers();
     }
 
     public Teacher loadByTeacherId(int teacherId) throws SQLException {
 
-        return database.loadTeacher(teacherId);
+        return database.loadTeacherByTeacherId(teacherId);
     }
 
     public Teacher loadByUserId(Integer userId) throws SQLException {

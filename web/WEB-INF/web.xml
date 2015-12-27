@@ -7,14 +7,14 @@
         <welcome-file>\HTML\Index.html</welcome-file>
     </welcome-file-list>
 
-    <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>UI.LoginController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/index/*</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>Login</servlet-name>-->
+        <!--<servlet-class>UI.LoginController</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Login</servlet-name>-->
+        <!--<url-pattern>/index/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
         <servlet-name>Admin</servlet-name>
@@ -44,13 +44,22 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ChangePassword</servlet-name>
-        <servlet-class>UI.ChangePassword</servlet-class>
+        <servlet-name>Grade</servlet-name>
+        <servlet-class>UI.GradeController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ChangePassword</servlet-name>
-        <url-pattern>/changePassword/*</url-pattern>
+        <servlet-name>Grade</servlet-name>
+        <url-pattern>/grade/*</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>Login</filter-name>
+        <filter-class>UI.LoginFilter</filter-class>
+    </filter>
+   <filter-mapping>
+       <filter-name>Login</filter-name>
+       <url-pattern>/index/*</url-pattern>
+   </filter-mapping>
 
 
 </web-app>

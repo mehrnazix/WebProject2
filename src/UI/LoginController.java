@@ -5,6 +5,7 @@ import Biz.User.UserBLO;
 
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -50,7 +51,7 @@ public class LoginController extends BaseController {
 
                 try {
                     Request.getSession().setAttribute("user", currentUser);
-                    Request.getSession().setAttribute("userId",currentUser.getUserId());
+                    Request.getSession().setAttribute("userId", currentUser.getUserId());
                     Response.sendRedirect(url);
 
                 } catch (IOException e) {
@@ -66,6 +67,23 @@ public class LoginController extends BaseController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void logout() {
+
+        HttpSession session = Request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+        }
+
+        try {
+            Response.sendRedirect("/HTML/Index.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

@@ -6,6 +6,7 @@ import Biz.Student.Student;
 import Biz.Student.StudentBLO;
 import Biz.Teacher.Teacher;
 import Biz.Teacher.TeacherBLO;
+import Biz.User.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -160,8 +161,10 @@ public class AdminController extends BaseController {
         int mobileNumber = Integer.parseInt(Request.getParameter("mobileNumber"));
         String address = Request.getParameter("address");
 
-        return new Teacher(userId, teacherId, firstName, lastName, nationalCode, teacherCode, email,
-                phoneNumber, mobileNumber, address);
+        User user = new User(userId, firstName, lastName, nationalCode, teacherCode, email,
+                phoneNumber, mobileNumber, address, 2);
+
+        return new Teacher(teacherId, user);
     }
 
     /******
@@ -287,8 +290,10 @@ public class AdminController extends BaseController {
         Integer mobileNumber = Integer.parseInt(Request.getParameter("mobileNumber"));
         String address = Request.getParameter("address");
 
-        return new Student(userId, studentId, firstName, lastName, nationalCode, studentCode, email,
-                phoneNumber, mobileNumber, address);
+        User user = new User(userId, firstName, lastName, nationalCode, studentCode, email,
+                phoneNumber, mobileNumber, address, 3);
+
+        return new Student(studentId, user);
     }
 
     /******
@@ -400,6 +405,7 @@ public class AdminController extends BaseController {
         Integer courseCode = Integer.parseInt(Request.getParameter("code"));
         Integer coefficient = Integer.parseInt(Request.getParameter("coefficient"));
         Integer courseTeacherId = Integer.parseInt(Request.getParameter("teacherId"));
+
 
         return new Course(courseId, courseName, courseCode, coefficient, courseTeacherId);
     }

@@ -58,6 +58,20 @@ public class TeacherController extends BaseController {
         }
     }
 
+    public void updateGrade() {
+        try {
+            int gradeId = (int) Request.getAttribute("id");
+            Request.getRequestDispatcher("/grade/update/" + gradeId).forward(Request, Response);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
+
+//        viewGrades();
+    }
+
     public void changePassword() {
 
         if (changePasswordBLO == null) {

@@ -24,8 +24,8 @@ public class User {
         setUserTypeId(userTypeId);
     }
 
-    public User(int id, String username, String password, String firstName, String lastName, int nationalCode, int userCode, String email,
-                int phoneNumber, int mobileNumber, String address, int userTypeId) {
+    public User(int id, String firstName, String lastName, int nationalCode, int userCode, String email,
+                int phoneNumber, int mobileNumber, String address, String username, String password, int userTypeId) {
 
         this(id, firstName, lastName, nationalCode, userCode, email, phoneNumber, mobileNumber, address, userTypeId);
 
@@ -33,7 +33,7 @@ public class User {
         setPassword(password);
     }
 
-    public User(int id, String password){
+    public User(int id, String password) {
 
         setUserId(id);
         setPassword(password);

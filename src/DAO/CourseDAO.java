@@ -41,11 +41,11 @@ public class CourseDAO {
 
     public Course loadByCourseId(int courseId) throws SQLException {
 
-        return database.loadCourse(courseId);
+        return database.loadCourseByCourseId(courseId);
     }
 
     public List<Teacher> loadTeacherList() throws SQLException {
-        return database.loadTeachers();
+        return database.loadAllTeachers();
     }
 
 

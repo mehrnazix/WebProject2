@@ -11,11 +11,10 @@ public class Student extends User {
 
     }
 
-    public Student(int userId, int studentId, String firstName, String lastName, int nationalCode, int userCode, String email,
-                   int phoneNumber, int mobileNumber, String address) {
+    public Student(int studentId, User user) {
 
-        super(userId, firstName, lastName, nationalCode, userCode, email,
-                phoneNumber, mobileNumber, address, 3);
+        super(user.getUserId(), user.getFirstName(), user.getLastName(), user.getNationalCode(), user.getCode(),
+                user.getEmail(), user.getPhoneNumber(), user.getMobileNumber(), user.getAddress(), 3);
 
         setStudentId(studentId);
     }

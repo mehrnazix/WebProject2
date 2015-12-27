@@ -40,7 +40,7 @@ public class StudentDAO {
 
     public Student loadByStudentId(int studentId) throws SQLException {
 
-        return database.loadStudent(studentId);
+        return database.loadStudentByStudentId(studentId);
     }
 
     public Student loadByUserId(Integer userId) throws SQLException {
