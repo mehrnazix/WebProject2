@@ -40,3 +40,22 @@ function validateForm() {
     return true;
 
 }
+
+function deleteCourse(gradeId) {
+
+
+    var confirmation = confirm("Do you really want to delete this row?");
+
+    if (confirmation == true) {
+        window.location.href = '/student/deleteCourse/' + gradeId;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function selectCourse(courseId) {
+
+    window.location.href = "/student/addStudentCourse/" + courseId;
+}

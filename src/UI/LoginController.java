@@ -4,6 +4,7 @@ import Biz.User.User;
 import Biz.User.UserBLO;
 
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -73,17 +74,18 @@ public class LoginController extends BaseController {
     public void logout() {
 
         HttpSession session = Request.getSession(false);
-
         if (session != null) {
+
+            session.removeAttribute("user");
             session.invalidate();
         }
 
         try {
-            Response.sendRedirect("/HTML/Index.html");
+            Request.getRequestDispatcher("/HTML/index.html").forward(Request, Response);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
         }
-
-
     }
 }

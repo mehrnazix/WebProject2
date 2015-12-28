@@ -1,7 +1,7 @@
 package Database;
 
 import Biz.Course.Course;
-import Biz.Grade;
+import Biz.StudentCourseMark;
 import Biz.Student.Student;
 import Biz.Teacher.Teacher;
 import Biz.User.User;
@@ -535,9 +535,9 @@ public class Database {
 
 
     /*************
-     * ********* Grade
+     * ********* StudentCourseMark
      ***********/
-    public List<Grade> loadGradesByStudentId(int studentId) throws SQLException {
+    public List<StudentCourseMark> loadCoursesOfStudentByStudentId(int studentId) throws SQLException {
 
         ArrayList gradeList = new ArrayList();
         String loadQuery =
@@ -547,7 +547,7 @@ public class Database {
                         "u.Code user_code, u.Email user_email, u.PhoneNumber user_phone, u.MobileNumber user_mobile," +
                         "u.Address user_address, u.Username user_username, u.Password user_password, " +
                         "u.UserTypeId user_user_type_id " +
-                        "from hm.grades g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
+                        "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
                         "on t.id = c.teacher_id inner join hm.users u on u.id = t.user_id where g.student_id = ? " +
                         "order by c.code";
 
@@ -557,24 +557,24 @@ public class Database {
 
         while (resultSet.next()) {
 
-            gradeList.add(newGrade(resultSet));
+            gradeList.add(newStudent_Course_Mark(resultSet));
         }
 
         return gradeList;
     }
 
-    public List<Grade> loadListByTeacherId(int teacherId) throws SQLException {
+    public List<StudentCourseMark> loadStudentCourseListByTeacherId(int teacherId) throws SQLException {
 
         ArrayList gradeList = new ArrayList();
         String loadQuery =
                 "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name, " +
-                        "c.coefficient course_coefficient, c.code course_code, t.id teacher_id, u.Id user_id, " +
+                        "c.coefficient course_coefficient, c.code course_code, c.teacher_id teacher_id, u.Id user_id, " +
                         "u.FirstName user_first_name, u.LastName user_last_name, u.NationalCode user_national_code," +
                         "u.Code user_code, u.Email user_email, u.PhoneNumber user_phone, u.MobileNumber user_mobile," +
                         "u.Address user_address, u.Username user_username, u.Password user_password, " +
                         "u.UserTypeId user_user_type_id " +
-                        "from hm.grades g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
-                        "on t.id = c.teacher_id inner join hm.users u on u.id = t.user_id where t.id = ? " +
+                        "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.students s " +
+                        "on s.id = g.student_id inner join hm.users u on u.id = s.user_id where c.teacher_id = ? " +
                         "order by c.code";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -583,22 +583,22 @@ public class Database {
 
         while (resultSet.next()) {
 
-            gradeList.add(newGrade(resultSet));
+            gradeList.add(newStudent_Course_Mark(resultSet));
         }
 
         return gradeList;
     }
 
-    public Grade newGrade(ResultSet resultSet) throws SQLException {
+    public StudentCourseMark newStudent_Course_Mark(ResultSet resultSet) throws SQLException {
 
         Course course = newCourse(resultSet);
         Student student = newStudent(resultSet);
-        return new Grade(resultSet.getInt("grade_id"), student, course, resultSet.getInt("grade_score"));
+        return new StudentCourseMark(resultSet.getInt("grade_id"), student, course, resultSet.getInt("grade_score"));
     }
 
-    public void addGrade(int courseId, int studentId) throws SQLException {
+    public void addStudentCourseMark(int courseId, int studentId) throws SQLException {
 
-        String insertQuery = "INSERT INTO HM.Grades (student_id ,course_id) VALUES (?, ?)";
+        String insertQuery = "INSERT INTO HM.Student_Course_Mark (student_id ,course_id) VALUES (?, ?)";
 
         PreparedStatement ps = this.connectionString.prepareStatement(insertQuery);
         ps.setInt(1, studentId);
@@ -606,43 +606,18 @@ public class Database {
         ps.executeUpdate();
     }
 
-//    public List<Course> loadAllGrades() throws SQLException {
-//
-//        List<Gra>
-//        String loadQuery =
-//                "select  g.id grade_id, g.score grade_score, c.id course_id, c.name course_name, " +
-//                        "c.coefficient course_coefficient, c.code course_code, t.id teacher_id, u.Id user_id, " +
-//                        "u.FirstName user_first_name, u.LastName user_last_name, u.NationalCode user_national_code," +
-//                        "u.Code user_code, u.Email user_email, u.PhoneNumber user_phone, u.MobileNumber user_mobile," +
-//                        "u.Address user_address, u.Username user_username, u.Password user_password, " +
-//                        "u.UserTypeId user_user_type_id " +
-//                        "from hm.grades g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
-//                        "on t.id = c.teacher_id inner join hm.users u on u.id = t.user_id " +
-//                        "order by c.code";
-//
-//        PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
-//        ResultSet resultSet = ps.executeQuery();
-//
-//        while (resultSet.next()) {
-//
-//            gradeList.add(newGrade(resultSet));
-//        }
-//
-//        return gradeList;
-//    }
+    public void deleteStudentCourse(int gradeId) throws SQLException {
 
-    public void deleteGrade(int gradeId) throws SQLException {
-
-        String deleteQuery = "DELETE FROM HM.Grades WHERE Id = " + gradeId;
+        String deleteQuery = "DELETE FROM HM.Student_Course_Mark WHERE Id = " + gradeId;
 
         PreparedStatement ps = this.connectionString.prepareStatement(deleteQuery);
         ps.executeUpdate();
 
     }
 
-    public void updateGrade(int gradeId, int score) throws SQLException {
+    public void updateStudent_Course_Mark(int gradeId, int score) throws SQLException {
 
-        String updateQuery = "update HM.Grades set score = ? WHERE Id = " + gradeId;
+        String updateQuery = "update HM.Student_Course_Mark set score = ? WHERE Id = " + gradeId;
 
         PreparedStatement ps = this.connectionString.prepareStatement(updateQuery);
         ps.setInt(1, score);

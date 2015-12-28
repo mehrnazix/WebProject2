@@ -1,13 +1,16 @@
 package UI;
 
 import Biz.ChangePasswordBLO;
+import Biz.StudentCourseMark;
 import Biz.Teacher.Teacher;
 import Biz.Teacher.TeacherBLO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TeacherController extends BaseController {
 
@@ -21,6 +24,13 @@ public class TeacherController extends BaseController {
 
                 teacherBLO = new TeacherBLO();
             }
+
+
+            int userId = (int) Request.getSession().getAttribute("userId");
+            Teacher teacher = teacherBLO.loadByUserId(userId);
+
+            Request.getSession().setAttribute("teacherId", teacher.getTeacherId());
+            Request.setAttribute("teacher", teacher);
 
             RequestDispatcher view = Request.getRequestDispatcher("/JSP/teacherPage.jsp");
             view.forward(Request, Response);
@@ -46,7 +56,7 @@ public class TeacherController extends BaseController {
 
         try {
             Teacher teacher = teacherBLO.loadByUserId(userId);
-            Request.setAttribute("teacher",teacher);
+            Request.setAttribute("teacher", teacher);
             Request.getRequestDispatcher("/JSP/profileTeacher.jsp").forward(Request, Response);
 
         } catch (IOException e) {
@@ -58,18 +68,69 @@ public class TeacherController extends BaseController {
         }
     }
 
-    public void updateGrade() {
+    public void grades() {
         try {
-            int gradeId = (int) Request.getAttribute("id");
-            Request.getRequestDispatcher("/grade/update/" + gradeId).forward(Request, Response);
 
+            if (teacherBLO == null)
+                index();
+
+            int teacherId = (int) Request.getSession().getAttribute("teacherId");
+            List<StudentCourseMark> gradeList = teacherBLO.loadStudentCourseListByTeacherId(teacherId);
+
+            HttpSession session = Request.getSession();
+            session.setAttribute("gradeList", gradeList);
+
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/teacherGrades.jsp");
+            view.forward(Request, Response);
+
+        } catch (ServletException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void giveUpScore() {
+
+        try {
+            if (teacherBLO == null)
+                index();
+
+            int gradeId = (int) Request.getAttribute("id");
+//            StudentCourseMark grade = teacherBLO.loadStudentCourseByTeacherId(gradeId);
+
+//            HttpSession session = Request.getSession();
+//            session.setAttribute("grade", grade);
+
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewGrade.jsp");
+            view.forward(Request, Response);
+
         } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveGrade() {
+
+        try {
+
+            if (teacherBLO == null)
+                index();
+
+            int gradeId = (int) Request.getAttribute("id");
+            int score = Integer.parseInt(Request.getParameter("score"));
+
+            teacherBLO.updateScore(gradeId, score);
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-//        viewGrades();
+        grades();
     }
 
     public void changePassword() {

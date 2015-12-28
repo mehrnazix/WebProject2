@@ -58,7 +58,7 @@
 </div>
 
 <div>
-    <a href="\JSP\studentPage.jsp">First Page</a>
+    <a href="/student">Home</a>
 </div>
 
 </body>

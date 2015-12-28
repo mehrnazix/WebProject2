@@ -11,26 +11,26 @@
 
 <div class="list-view">
     <fieldset>
-        <legend>Grade List View</legend>
-        <table id="gradeTableId">
+        <legend>Teacher's Course List View</legend>
+        <table id="studentCourseMark">
             <tr>
+                <th>Student Name</th>
                 <th>Course Code</th>
                 <th>Course Name</th>
-                <th>Student Name</th>
                 <th>Score</th>
                 <th></th>
             </tr>
 
             <c:set var="sum" value="${0}"/>
-            <c:forEach var="gradeItem" items="${gradeList}">
-                <c:set var="sum" value="${sum+gradeItem.getScore()}"/>
+            <c:forEach var="grade" items="${gradeList}">
+                <c:set var="sum" value="${sum + grade.getScore()}"/>
                 <tr class="pure-table-odd">
-                    <td>${gradeItem.getCourse().getCode()}</td>
-                    <td>${gradeItem.getCourse().getName()}</td>
-                    <td>${gradeItem.getCourse().getStudent().toString()}</td>
-                    <td>${gradeItem.getScore()}</td>
+                    <td>${grade.getStudent().toString()}</td>
+                    <td>${grade.getCourse().getCode()}</td>
+                    <td>${grade.getCourse().getName()}</td>
+                    <td>${transgradecript.getScore()}</td>
                     <td>
-                        <input type="submit" value="Set Score" onclick="updateRow(${gradeItem.getGradeId()})">
+                        <input type="button" value="Give up Score" onclick="giveUpeScore(${grade.getStudentCourseMarkId()})">
                     </td>
                 </tr>
             </c:forEach>
@@ -47,9 +47,9 @@
 </div>
 
 <div>
-    <a href="\JSP\teacherPage.jsp">First Page</a>
+    <a href="\JSP\teacherPage.jsp">Home</a>
 </div>
 
-<script type="text/javascript" src="/JS/gradeValidation.js"></script>
+<script type="text/javascript" src="/JS/teacherValidation.js"></script>
 </body>
 </html>

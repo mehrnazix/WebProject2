@@ -6,15 +6,15 @@ import Biz.Student.Student;
 /**
  * Created by 931664 on 11/25/2015.
  */
-public class Grade {
+public class StudentCourseMark {
 
-    public Grade() {
+    public StudentCourseMark() {
 
     }
 
-    public Grade(int id, Student student, Course course, int score) {
+    public StudentCourseMark(int id, Student student, Course course, int score) {
 
-        setGradeId(id);
+        setStudentCourseMarkId(id);
         setStudent(student);
         setStudentId(student.getStudentId());
         setCourse(course);
@@ -22,19 +22,19 @@ public class Grade {
         setScore(score);
     }
 
-    private int gradeId;
+    private int studentCourseMarkId;
     private int studentId;
     private int courseId;
     private int score;
     private Student student;
     private Course course;
 
-    public int getGradeId() {
-        return gradeId;
+    public int getStudentCourseMarkId() {
+        return studentCourseMarkId;
     }
 
-    public void setGradeId(int gradeId) {
-        this.gradeId = gradeId;
+    public void setStudentCourseMarkId(int studentCourseMarkId) {
+        this.studentCourseMarkId = studentCourseMarkId;
     }
 
     public int getStudentId() {

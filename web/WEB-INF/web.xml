@@ -4,19 +4,19 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <welcome-file-list>
-        <welcome-file>\HTML\Index.html</welcome-file>
+        <welcome-file>\HTML\index.html</welcome-file>
     </welcome-file-list>
 
-    <!--<servlet>-->
-        <!--<servlet-name>Login</servlet-name>-->
-        <!--<servlet-class>UI.LoginController</servlet-class>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>Login</servlet-name>-->
-        <!--<url-pattern>/index/*</url-pattern>-->
-    <!--</servlet-mapping>-->
-
     <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>UI.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/index/*</url-pattern>
+    </servlet-mapping>
+
+<servlet>
         <servlet-name>Admin</servlet-name>
         <servlet-class>UI.AdminController</servlet-class>
     </servlet>
@@ -56,10 +56,27 @@
         <filter-name>Login</filter-name>
         <filter-class>UI.LoginFilter</filter-class>
     </filter>
-   <filter-mapping>
-       <filter-name>Login</filter-name>
-       <url-pattern>/index/*</url-pattern>
-   </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Login</filter-name>
+        <url-pattern>/student/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Login</filter-name>
+        <url-pattern>/teacher/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Login</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+ <filter-mapping>
+        <filter-name>Login</filter-name>
+        <url-pattern>/grade/*</url-pattern>
+    </filter-mapping>
+
 
 
 </web-app>

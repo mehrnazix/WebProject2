@@ -8,25 +8,25 @@
 </head>
 <body>
 <div class="form-add-new">
-    <form method="post" action="/grade/update">
-        <input type="hidden" name="id" value="${grade.getGradeId()}">
+    <form method="post" action="/teacher/saveGrade">
+        <input type="hidden" name="id" value="${grade.getStudentCourseMarkId()}">
 
         <fieldset>
-            <legend>Add New Grade</legend>
+            <legend>Edit Grade</legend>
 
             <label>
                 <span class="required">Grade Code : </span>
-                <input type="number" name="code" value="${grade.getCourse().getCode()}">
+                <input type="number" readonly name="code" value="${grade.getCourse().getCode()}">
             </label>
 
             <label>
                 <span class="required">Grade Name :</span>
-                <input type="text" name="name" value="${grade.getCourse().getName()}">
+                <input type="text" readonly name="name" value="${grade.getCourse().getName()}">
             </label>
 
             <label>
                 <span class="required">Student : </span>
-                <input type="text" name="coefficient" value="${grade.getStudent()}">
+                <input type="text" readonly name="coefficient" value="${grade.getStudent()}">
             </label>
 
             <label>
@@ -36,11 +36,11 @@
 
             <label>
                 <input type="submit" value="Save">
-                <input type="button" value="Cancel" onclick="window.location.href='/grade/gradesOfTeacher'">
+                <input type="button" value="Cancel" onclick="window.location.href='/teacher/teacherGrades'">
             </label>
         </fieldset>
     </form>
 </div>
-<script type="text/javascript" src="/JS/gradeValidation.js"></script>
+<script type="text/javascript" src="/JS/teacherValidation.js"></script>
 </body>
 </html>

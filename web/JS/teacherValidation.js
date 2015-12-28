@@ -39,3 +39,8 @@ function validateForm() {
     return true;
 
 }
+
+function giveUpeScore(gradeId){
+
+    window.location.href = '/teacher/giveUpScore/' + gradeId;
+}

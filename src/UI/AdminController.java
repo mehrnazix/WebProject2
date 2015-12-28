@@ -311,7 +311,7 @@ public class AdminController extends BaseController {
             HttpSession session = Request.getSession();
             session.setAttribute("courseList", courses);
 
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewCourses.jsp");
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewCoursesForAdmin.jsp");
             view.forward(Request, Response);
 
         } catch (SQLException e) {

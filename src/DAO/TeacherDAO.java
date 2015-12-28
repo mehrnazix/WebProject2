@@ -1,5 +1,6 @@
 package DAO;
 
+import Biz.StudentCourseMark;
 import Biz.Teacher.Teacher;
 import Database.Database;
 
@@ -49,4 +50,15 @@ public class TeacherDAO {
     }
 
 
+    public List<StudentCourseMark> loadStudentCourseListByTeacherId(int teacherId) throws SQLException {
+        return database.loadStudentCourseListByTeacherId(teacherId);
+    }
+
+    public void updateScore(int gradeId, int score) throws SQLException {
+        database.updateStudent_Course_Mark(gradeId, score);
+    }
+
+//    public StudentCourseMark loadStudentCourseByTeacherId(int gradeId) {
+//        return database.loadStudentCourseListByTeacherId(gradeId);
+//    }
 }

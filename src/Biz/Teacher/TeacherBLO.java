@@ -1,5 +1,6 @@
 package Biz.Teacher;
 
+import Biz.StudentCourseMark;
 import Biz.Teacher.Teacher;
 import DAO.TeacherDAO;
 
@@ -66,4 +67,15 @@ public class TeacherBLO {
         teacherDAO.update(teacher);
     }
 
+    public List<StudentCourseMark> loadStudentCourseListByTeacherId(int teacherId) throws SQLException {
+        return teacherDAO.loadStudentCourseListByTeacherId(teacherId);
+    }
+
+    public void updateScore(int gradeId, int score) throws SQLException {
+        teacherDAO.updateScore(gradeId, score);
+    }
+
+//    public StudentCourseMark loadStudentCourseByTeacherId(int gradeId) {
+//        return teacherDAO.loadStudentCourseByTeacherId(gradeId);
+//    }
 }

@@ -1,6 +1,7 @@
 package Biz.Student;
 
 import Biz.Student.Student;
+import Biz.StudentCourseMark;
 import DAO.StudentDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -67,6 +68,17 @@ public class StudentBLO {
         studentDAO.update(student);
     }
 
+    public List<StudentCourseMark> loadCoursesOfStudentByStudentId(int studentId) throws SQLException {
+        return studentDAO.loadCoursesOfStudentByStudentId(studentId);
+    }
+
+    public void giveUpCourse(int courseId, int studentId) throws SQLException {
+        studentDAO.giveUpCourse(courseId, studentId);
+    }
+
+    public void deleteStudentCourse(int studentCourseId) throws SQLException {
+        studentDAO.deleteStudentCourse(studentCourseId);
+    }
 }
 
 
