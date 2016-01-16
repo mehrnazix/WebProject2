@@ -8,19 +8,48 @@
     <meta charset="UTF-8">
     <title>Admin Panel</title>
     <link href="/CSS/formsStyle.css" type="text/css" rel="stylesheet">
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-<div class="start_panel">
-    <fieldset>
-        <legend>Admin Panel</legend>
+<body style="background-image: url(Icon/training.jpg);">
 
-        <input type="button" class="button_in_start_page" value="Teacher List View" onclick="window.location.href='/admin/viewTeachers'">
-        <input type="button" class="button_in_start_page" value="Student List View" onclick="window.location.href='/admin/viewStudents'">
-        <input type="button" class="button_in_start_page" value="Course List View" onclick="window.location.href='/admin/viewCourses'">
-        <!--<input type="button" class="adminButton" value="Class List View" onclick="window.location.href='/class'">-->
+<style>
+    body {
+        padding: 100px;
+    }
+</style>
 
-    </fieldset>
+<jsp:include page="sharedLayout.jsp"></jsp:include>
+
+<div class="jumbotron">
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="window.location.href='/admin/viewTeachers'">Teacher List View</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3 col-md-offset-3">
+                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="window.location.href='/admin/viewStudents'">Student List View</button>
+            </div>
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <button class="btn btn-lg btn-primary btn-block" type="button" onclick="window.location.href='/admin/viewCourses'">Course List View</button>
+        </div>
+    </div>
 </div>
+
+    </div>
+</div>
+
+
+
+</body>
+
 </body>
 </html>
