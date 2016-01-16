@@ -5,9 +5,6 @@
 <head>
     <title>Grade List</title>
     <link rel="stylesheet" type="text/css" href="/CSS/formsStyle.css">
-
-    <%--<input type="button" value="Select Course" class="init-button"--%>
-           <%--onclick="window.location.href='/student/selectStudentCourses'">--%>
 </head>
 
 <body>
@@ -19,6 +16,7 @@
             <tr>
                 <th>Course Code</th>
                 <th>Course Name</th>
+                <th>Teacher Code</th>
                 <th>Teacher Name</th>
                 <th>Score</th>
             </tr>
@@ -29,15 +27,14 @@
                 <tr class="pure-table-odd">
                     <td>${transcript.getCourse().getCode()}</td>
                     <td>${transcript.getCourse().getName()}</td>
+                    <td>${transcript.getCourse().getTeacher().getCode()}</td>
                     <td>${transcript.getCourse().getTeacher().toString()}</td>
                     <td>${transcript.getScore()}</td>
-                    <%--<td>--%>
-                        <%--<input type="button" value="Remove" onclick="deleteCourse(${transcript.getStudentCourseMarkId()})">--%>
-                    <%--</td>--%>
                 </tr>
             </c:forEach>
 
             <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>

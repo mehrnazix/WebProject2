@@ -54,6 +54,11 @@ public class StudentDAO {
         return database.loadCoursesOfStudentByStudentId(studentId);
     }
 
+    public List<StudentCourseMark> loadTranscriptsOfStudentsByCourseId(int courseId) throws SQLException {
+
+        return database.loadTranscriptsOfStudentsByCourseId(courseId);
+    }
+
     public void giveUpCourse(int courseId, int studentId) throws SQLException {
         database.addStudentCourseMark(courseId, studentId);
     }

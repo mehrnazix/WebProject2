@@ -68,7 +68,18 @@ public class Database {
 
         while (resultSet.next()) {
 
-            user = newUser(resultSet);
+            user = newUser(resultSet.getInt("user_id"),
+                    resultSet.getString("user_first_name"),
+                    resultSet.getString("user_last_name"),
+                    resultSet.getString("user_national_code"),
+                    resultSet.getInt("user_code"),
+                    resultSet.getString("user_email"),
+                    resultSet.getInt("user_phone"),
+                    resultSet.getString("user_mobile"),
+                    resultSet.getString("user_address"),
+                    resultSet.getString("user_username"),
+                    resultSet.getString("user_password"),
+                    resultSet.getInt("user_user_type_id"));
         }
 
         return user;
@@ -91,7 +102,18 @@ public class Database {
 
         while (resultSet.next()) {
 
-            user = newUser(resultSet);
+            user = newUser(resultSet.getInt("user_id"),
+                    resultSet.getString("user_first_name"),
+                    resultSet.getString("user_last_name"),
+                    resultSet.getString("user_national_code"),
+                    resultSet.getInt("user_code"),
+                    resultSet.getString("user_email"),
+                    resultSet.getInt("user_phone"),
+                    resultSet.getString("user_mobile"),
+                    resultSet.getString("user_address"),
+                    resultSet.getString("user_username"),
+                    resultSet.getString("user_password"),
+                    resultSet.getInt("user_user_type_id"));
         }
 
         return user;
@@ -118,11 +140,11 @@ public class Database {
         PreparedStatement ps = this.connectionString.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, user.getFirstName());
         ps.setString(2, user.getLastName());
-        ps.setInt(3, user.getNationalCode());
+        ps.setString(3, user.getNationalCode());
         ps.setInt(4, user.getCode());
         ps.setString(5, user.getEmail());
         ps.setInt(6, user.getPhoneNumber());
-        ps.setInt(7, user.getMobileNumber());
+        ps.setString(7, user.getMobileNumber());
         ps.setString(8, user.getAddress());
         ps.setInt(9, user.getCode());
         ps.setString(10, "123");
@@ -153,11 +175,11 @@ public class Database {
         PreparedStatement ps = this.connectionString.prepareStatement(editQuery);
         ps.setString(1, user.getFirstName());
         ps.setString(2, user.getLastName());
-        ps.setInt(3, user.getNationalCode());
+        ps.setString(3, user.getNationalCode());
         ps.setInt(4, user.getCode());
         ps.setString(5, user.getEmail());
         ps.setInt(6, user.getPhoneNumber());
-        ps.setInt(7, user.getMobileNumber());
+        ps.setString(7, user.getMobileNumber());
         ps.setString(8, user.getAddress());
         ps.setInt(9, user.getUserId());
         ps.executeUpdate();
@@ -175,6 +197,7 @@ public class Database {
         ps.executeUpdate();
     }
 
+
     private void deleteUser(int userId) throws SQLException {
 
         String loadQuery = "delete from hm.users where id = ?";
@@ -184,21 +207,22 @@ public class Database {
 
     }
 
-    private User newUser(ResultSet resultSet) throws SQLException {
+    private User newUser(int userId, String firstName, String lastName, String nationalCode, int userCode, String email,
+                         int phone, String mobile, String address, String username, String pass, int userType) throws SQLException {
 
         return new User(
-                resultSet.getInt("user_id"),
-                resultSet.getString("user_first_name"),
-                resultSet.getString("user_last_name"),
-                resultSet.getInt("user_national_code"),
-                resultSet.getInt("user_code"),
-                resultSet.getString("user_email"),
-                resultSet.getInt("user_phone"),
-                resultSet.getInt("user_mobile"),
-                resultSet.getString("user_address"),
-                resultSet.getString("user_username"),
-                resultSet.getString("user_password"),
-                resultSet.getInt("user_user_type_id")
+                userId,
+                firstName,
+                lastName,
+                nationalCode,
+                userCode,
+                email,
+                phone,
+                mobile,
+                address,
+                username,
+                pass,
+                userType
         );
     }
 
@@ -211,10 +235,11 @@ public class Database {
 
         ArrayList teacherList = new ArrayList();
         String loadQuery =
-                "select t.id teacher_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                "select t.id teacher_id, u.Id teacher_user_id, u.FirstName teacher_user_first_name, " +
+                        "u.LastName teacher_user_last_name, u.NationalCode teacher_user_national_code, " +
+                        "u.Code teacher_user_code, u.Email teacher_user_email, u.PhoneNumber teacher_user_phone, " +
+                        "u.MobileNumber teacher_user_mobile, u.Address teacher_user_address," +
+                        "u.Username teacher_user_username, u.Password teacher_user_password, u.UserTypeId teacher_user_type_id " +
                         "from hm.teachers t inner join hm.users u on t.user_id = u.id order by u.Code ";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -231,10 +256,12 @@ public class Database {
     public Teacher loadTeacherByTeacherId(int teacherId) throws SQLException {
 
         String loadQuery =
-                "select t.id teacher_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                "select t.id teacher_id, u.Id teacher_user_id, u.FirstName teacher_user_first_name, " +
+                        "u.LastName teacher_user_last_name, u.NationalCode teacher_user_national_code, " +
+                        "u.Code teacher_user_code, u.Email teacher_user_email, u.PhoneNumber teacher_user_phone, " +
+                        "u.MobileNumber teacher_user_mobile, u.Address teacher_user_address," +
+                        "u.Username teacher_user_username, u.Password teacher_user_password, " +
+                        "u.UserTypeId teacher_user_type_id " +
                         "from hm.teachers t inner join hm.users u on t.user_id = u.id where t.id = ?";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -252,10 +279,10 @@ public class Database {
     public Teacher loadTeacherByUserId(int userId) throws SQLException {
 
         String loadQuery =
-                "select t.id teacher_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                "select t.id teacher_id, u.Id teacher_user_id, u.FirstName teacher_user_first_name, u.LastName teacher_user_last_name," +
+                        "u.NationalCode teacher_user_national_code, u.Code teacher_user_code, u.Email teacher_user_email, " +
+                        "u.PhoneNumber teacher_user_phone, u.MobileNumber teacher_user_mobile, u.Address teacher_user_address," +
+                        "u.Username teacher_user_username, u.Password teacher_user_password, u.UserTypeId teacher_user_type_id " +
                         "from hm.teachers t inner join hm.users u on t.user_id = u.id" +
                         "            where u.id = ?";
 
@@ -293,7 +320,18 @@ public class Database {
 
     private Teacher newTeacher(ResultSet resultSet) throws SQLException {
 
-        User user = newUser(resultSet);
+        User user = newUser(resultSet.getInt("teacher_user_id"),
+                resultSet.getString("teacher_user_first_name"),
+                resultSet.getString("teacher_user_last_name"),
+                resultSet.getString("teacher_user_national_code"),
+                resultSet.getInt("teacher_user_code"),
+                resultSet.getString("teacher_user_email"),
+                resultSet.getInt("teacher_user_phone"),
+                resultSet.getString("teacher_user_mobile"),
+                resultSet.getString("teacher_user_address"),
+                resultSet.getString("teacher_user_username"),
+                resultSet.getString("teacher_user_password"),
+                resultSet.getInt("teacher_user_type_id"));
         return new Teacher(
                 resultSet.getInt("teacher_id"),
                 user
@@ -325,10 +363,10 @@ public class Database {
 
         ArrayList studentList = new ArrayList();
         String loadQuery =
-                "select s.id student_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                "select s.id student_id, u.Id student_user_id, u.FirstName student_user_first_name, u.LastName student_user_last_name," +
+                        "u.NationalCode student_user_national_code, u.Code student_user_code, u.Email student_user_email, " +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, u.Address student_user_address," +
+                        "u.Username student_user_username, u.Password student_user_password, u.UserTypeId student_user_type_id " +
                         "from hm.students s inner join hm.users u on s.user_id = u.id order by u.Code ";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -346,10 +384,10 @@ public class Database {
     public Student loadStudentByStudentId(int studentId) throws SQLException {
 
         String loadQuery =
-                "select s.id student_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                "select s.id student_id, u.Id student_user_id, u.FirstName student_user_first_name, u.LastName student_user_last_name," +
+                        "u.NationalCode student_user_national_code, u.Code student_user_code, u.Email student_user_email, " +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, u.Address student_user_address," +
+                        "u.Username student_user_username, u.Password student_user_password, u.UserTypeId student_user_type_id " +
                         "from hm.students s inner join hm.users u on s.user_id = u.id where s.id = ? ";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -367,10 +405,10 @@ public class Database {
     public Student loadStudentByUserId(int userId) throws SQLException {
 
         String loadQuery =
-                "select s.id student_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                "select s.id student_id, u.Id student_user_id, u.FirstName student_user_first_name, u.LastName student_user_last_name," +
+                        "u.NationalCode student_user_national_code, u.Code student_user_code, u.Email student_user_email, " +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, u.Address student_user_address," +
+                        "u.Username student_user_username, u.Password student_user_password, u.UserTypeId student_user_type_id " +
                         "from hm.students s inner join hm.users u on s.user_id = u.id where u.id = ?";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -404,7 +442,19 @@ public class Database {
 
     private Student newStudent(ResultSet resultSet) throws SQLException {
 
-        User user = newUser(resultSet);
+        User user = newUser(resultSet.getInt("student_user_id"),
+                resultSet.getString("student_user_first_name"),
+                resultSet.getString("student_user_last_name"),
+                resultSet.getString("student_user_national_code"),
+                resultSet.getInt("student_user_code"),
+                resultSet.getString("student_user_email"),
+                resultSet.getInt("student_user_phone"),
+                resultSet.getString("student_user_mobile"),
+                resultSet.getString("student_user_address"),
+                resultSet.getString("student_user_username"),
+                resultSet.getString("student_user_password"),
+                resultSet.getInt("student_user_type_id"));
+
         return new Student(
                 resultSet.getInt("student_id"),
                 user
@@ -436,10 +486,11 @@ public class Database {
         ArrayList courseList = new ArrayList();
         String loadQuery =
                 "select  c.id course_id, c.name course_name, c.coefficient course_coefficient, c.code course_code," +
-                        "t.id teacher_id, u.Id user_id, u.FirstName user_first_name, u.LastName user_last_name," +
-                        "u.NationalCode user_national_code, u.Code user_code, u.Email user_email," +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address," +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                        "t.id teacher_id, u.Id teacher_user_id, u.FirstName teacher_user_first_name, " +
+                        "u.LastName teacher_user_last_name, u.NationalCode teacher_user_national_code, " +
+                        "u.Code teacher_user_code, u.Email teacher_user_email, u.PhoneNumber teacher_user_phone, " +
+                        "u.MobileNumber teacher_user_mobile, u.Address teacher_user_address," +
+                        "u.Username teacher_user_username, u.Password teacher_user_password, u.UserTypeId teacher_user_type_id " +
                         "from hm.courses c inner join hm.teachers t on c.teacher_id = t.id inner join hm.users u" +
                         " on u.id = t.user_id order by c.code";
 
@@ -459,10 +510,11 @@ public class Database {
         Course course = null;
         String loadQuery =
                 "select  c.id course_id, c.name course_name, c.coefficient course_coefficient, " +
-                        "c.code course_code, t.id teacher_id, u.Id user_id, u.FirstName user_first_name, " +
-                        "u.LastName user_last_name, u.NationalCode user_national_code, u.Code user_code, u.Email user_email, " +
-                        "u.PhoneNumber user_phone, u.MobileNumber user_mobile, u.Address user_address, " +
-                        "u.Username user_username, u.Password user_password, u.UserTypeId user_user_type_id " +
+                        "c.code course_code, t.id teacher_id, u.Id teacher_user_id, u.FirstName teacher_user_first_name, " +
+                        "u.LastName teacher_user_last_name, u.NationalCode teacher_user_national_code, u.Code teacher_user_code, " +
+                        "u.Email teacher_user_email, u.PhoneNumber teacher_user_phone, u.MobileNumber teacher_user_mobile, " +
+                        "u.Address teacher_user_address, u.Username teacher_user_username, u.Password teacher_user_password, " +
+                        "u.UserTypeId teacher_user_type_id " +
                         "from hm.courses c inner join hm.teachers t on c.teacher_id = t.id inner join hm.users u " +
                         "on u.id = t.user_id where c.id = ? order by c.code";
 
@@ -541,14 +593,21 @@ public class Database {
 
         ArrayList gradeList = new ArrayList();
         String loadQuery =
-                "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name, " +
-                        "c.coefficient course_coefficient, c.code course_code, t.id teacher_id, u.Id user_id, " +
-                        "u.FirstName user_first_name, u.LastName user_last_name, u.NationalCode user_national_code," +
-                        "u.Code user_code, u.Email user_email, u.PhoneNumber user_phone, u.MobileNumber user_mobile," +
-                        "u.Address user_address, u.Username user_username, u.Password user_password, " +
-                        "u.UserTypeId user_user_type_id " +
+                "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name," +
+                        "c.coefficient course_coefficient, c.code course_code, c.teacher_id teacher_id, u.Id student_user_id, " +
+                        "u.FirstName student_user_first_name, u.LastName student_user_last_name, " +
+                        "u.NationalCode student_user_national_code,u.Code student_user_code, u.Email student_user_email," +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, " +
+                        "u.Address student_user_address, u.Username student_user_username, u.Password student_user_password," +
+                        "u.UserTypeId student_user_type_id, ut.Id teacher_user_id,  ut.FirstName teacher_user_first_name, " +
+                        "ut.LastName teacher_user_last_name, ut.NationalCode teacher_user_national_code, " +
+                        "ut.Code teacher_user_code, ut.Email teacher_user_email, ut.PhoneNumber teacher_user_phone," +
+                        "ut.MobileNumber teacher_user_mobile,ut.Address teacher_user_address, " +
+                        "ut.Username teacher_user_username, ut.Password teacher_user_password, " +
+                        "ut.UserTypeId teacher_user_type_id  " +
                         "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
-                        "on t.id = c.teacher_id inner join hm.users u on u.id = t.user_id where g.student_id = ? " +
+                        "on t.id = c.teacher_id inner join hm.users ut  on ut.id = t.user_id  inner join hm.students s " +
+                        "on s.id = g.student_id  inner join hm.users u on u.id = s.user_id where g.student_id = ? " +
                         "order by c.code";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -563,18 +622,57 @@ public class Database {
         return gradeList;
     }
 
+    public List<StudentCourseMark> loadTranscriptsOfStudentsByCourseId(int courseId) throws SQLException {
+
+        ArrayList gradeList = new ArrayList();
+        String loadQuery =
+                "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name," +
+                        "c.coefficient course_coefficient, c.code course_code, c.teacher_id teacher_id, u.Id student_user_id, " +
+                        "u.FirstName student_user_first_name, u.LastName student_user_last_name, " +
+                        "u.NationalCode student_user_national_code,u.Code student_user_code, u.Email student_user_email," +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, " +
+                        "u.Address student_user_address, u.Username student_user_username, u.Password student_user_password," +
+                        "u.UserTypeId student_user_type_id, ut.Id teacher_user_id,  ut.FirstName teacher_user_first_name, " +
+                        "ut.LastName teacher_user_last_name, ut.NationalCode teacher_user_national_code, " +
+                        "ut.Code teacher_user_code, ut.Email teacher_user_email, ut.PhoneNumber teacher_user_phone," +
+                        "ut.MobileNumber teacher_user_mobile,ut.Address teacher_user_address, " +
+                        "ut.Username teacher_user_username, ut.Password teacher_user_password, " +
+                        "ut.UserTypeId teacher_user_type_id  " +
+                        "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
+                        "on t.id = c.teacher_id inner join hm.users ut  on ut.id = t.user_id  inner join hm.students s " +
+                        "on s.id = g.student_id  inner join hm.users u on u.id = s.user_id  where g.course_id = ? order by c.code";
+
+        PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
+        ps.setInt(1, courseId);
+        ResultSet resultSet = ps.executeQuery();
+
+        while (resultSet.next()) {
+
+            gradeList.add(newStudent_Course_Mark(resultSet));
+        }
+
+        return gradeList;
+    }
+
     public List<StudentCourseMark> loadStudentCourseListByTeacherId(int teacherId) throws SQLException {
 
         ArrayList gradeList = new ArrayList();
         String loadQuery =
-                "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name, " +
-                        "c.coefficient course_coefficient, c.code course_code, c.teacher_id teacher_id, u.Id user_id, " +
-                        "u.FirstName user_first_name, u.LastName user_last_name, u.NationalCode user_national_code," +
-                        "u.Code user_code, u.Email user_email, u.PhoneNumber user_phone, u.MobileNumber user_mobile," +
-                        "u.Address user_address, u.Username user_username, u.Password user_password, " +
-                        "u.UserTypeId user_user_type_id " +
-                        "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.students s " +
-                        "on s.id = g.student_id inner join hm.users u on u.id = s.user_id where c.teacher_id = ? " +
+                "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name," +
+                        "c.coefficient course_coefficient, c.code course_code, c.teacher_id teacher_id, u.Id student_user_id, " +
+                        "u.FirstName student_user_first_name, u.LastName student_user_last_name, " +
+                        "u.NationalCode student_user_national_code,u.Code student_user_code, u.Email student_user_email," +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, " +
+                        "u.Address student_user_address, u.Username student_user_username, u.Password student_user_password," +
+                        "u.UserTypeId student_user_type_id, ut.Id teacher_user_id,  ut.FirstName teacher_user_first_name, " +
+                        "ut.LastName teacher_user_last_name, ut.NationalCode teacher_user_national_code, " +
+                        "ut.Code teacher_user_code, ut.Email teacher_user_email, ut.PhoneNumber teacher_user_phone," +
+                        "ut.MobileNumber teacher_user_mobile,ut.Address teacher_user_address, " +
+                        "ut.Username teacher_user_username, ut.Password teacher_user_password, " +
+                        "ut.UserTypeId teacher_user_type_id  " +
+                        "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
+                        "on t.id = c.teacher_id inner join hm.users ut  on ut.id = t.user_id  inner join hm.students s " +
+                        "on s.id = g.student_id  inner join hm.users u on u.id = s.user_id where c.teacher_id = ? " +
                         "order by c.code";
 
         PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
@@ -587,6 +685,38 @@ public class Database {
         }
 
         return gradeList;
+    }
+
+    public StudentCourseMark loadStudentCourseOfStudent(int studentCourseId) throws SQLException {
+
+        String loadQuery =
+                "select g.student_id student_id, g.id grade_id, g.score grade_score, c.id course_id, c.name course_name," +
+                        "c.coefficient course_coefficient, c.code course_code, c.teacher_id teacher_id, u.Id student_user_id, " +
+                        "u.FirstName student_user_first_name, u.LastName student_user_last_name, " +
+                        "u.NationalCode student_user_national_code,u.Code student_user_code, u.Email student_user_email," +
+                        "u.PhoneNumber student_user_phone, u.MobileNumber student_user_mobile, " +
+                        "u.Address student_user_address, u.Username student_user_username, u.Password student_user_password," +
+                        "u.UserTypeId student_user_type_id, ut.Id teacher_user_id,  ut.FirstName teacher_user_first_name, " +
+                        "ut.LastName teacher_user_last_name, ut.NationalCode teacher_user_national_code, " +
+                        "ut.Code teacher_user_code, ut.Email teacher_user_email, ut.PhoneNumber teacher_user_phone," +
+                        "ut.MobileNumber teacher_user_mobile,ut.Address teacher_user_address, " +
+                        "ut.Username teacher_user_username, ut.Password teacher_user_password, " +
+                        "ut.UserTypeId teacher_user_type_id  " +
+                        "from hm.Student_Course_Mark g inner join hm.courses c on g.course_Id = c.id inner join hm.teachers t " +
+                        "on t.id = c.teacher_id inner join hm.users ut  on ut.id = t.user_id  inner join hm.students s " +
+                        "on s.id = g.student_id  inner join hm.users u on u.id = s.user_id where g.id = ? " +
+                        "order by c.code";
+
+        PreparedStatement ps = this.connectionString.prepareStatement(loadQuery);
+        ps.setInt(1, studentCourseId);
+        ResultSet resultSet = ps.executeQuery();
+
+        if (resultSet.next()) {
+
+            return newStudent_Course_Mark(resultSet);
+        }
+
+        return null;
     }
 
     public StudentCourseMark newStudent_Course_Mark(ResultSet resultSet) throws SQLException {
@@ -617,12 +747,11 @@ public class Database {
 
     public void updateStudent_Course_Mark(int gradeId, int score) throws SQLException {
 
-        String updateQuery = "update HM.Student_Course_Mark set score = ? WHERE Id = " + gradeId;
+        String updateQuery = "update HM.Student_Course_Mark set score = ? WHERE Id = ? " ;
 
         PreparedStatement ps = this.connectionString.prepareStatement(updateQuery);
         ps.setInt(1, score);
         ps.setInt(2, gradeId);
-
         ps.executeUpdate();
     }
 }

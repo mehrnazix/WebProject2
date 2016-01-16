@@ -9,8 +9,8 @@ public class User {
 
     }
 
-    public User(int id, String firstName, String lastName, int nationalCode, int userCode, String email,
-                int phoneNumber, int mobileNumber, String address, int userTypeId) {
+    public User(int id, String firstName, String lastName, String nationalCode, int userCode, String email,
+                int phoneNumber, String mobileNumber, String address, int userTypeId) {
 
         setUserId(id);
         setFirstName(firstName);
@@ -24,8 +24,8 @@ public class User {
         setUserTypeId(userTypeId);
     }
 
-    public User(int id, String firstName, String lastName, int nationalCode, int userCode, String email,
-                int phoneNumber, int mobileNumber, String address, String username, String password, int userTypeId) {
+    public User(int id, String firstName, String lastName, String nationalCode, int userCode, String email,
+                int phoneNumber, String mobileNumber, String address, String username, String password, int userTypeId) {
 
         this(id, firstName, lastName, nationalCode, userCode, email, phoneNumber, mobileNumber, address, userTypeId);
 
@@ -43,11 +43,11 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private int nationalCode;
+    private String nationalCode;
     private int code;
     private String email;
     private int phoneNumber;
-    private int mobileNumber;
+    private String mobileNumber;
     private String address;
     private int UserId;
     private int userTypeId;
@@ -77,11 +77,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Integer getNationalCode() {
+    public String getNationalCode() {
         return nationalCode;
     }
 
-    public void setNationalCode(Integer nationalCode) {
+    public void setNationalCode(String nationalCode) {
         this.nationalCode = nationalCode;
     }
 
@@ -93,11 +93,11 @@ public class User {
         this.code = userCode;
     }
 
-    public int getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(int mobileNumber) {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 

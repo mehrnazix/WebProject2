@@ -58,7 +58,7 @@ public class TeacherDAO {
         database.updateStudent_Course_Mark(gradeId, score);
     }
 
-//    public StudentCourseMark loadStudentCourseByTeacherId(int gradeId) {
-//        return database.loadStudentCourseListByTeacherId(gradeId);
-//    }
+    public StudentCourseMark loadTranscriptOfStudent(int gradeId) throws SQLException {
+        return database.loadStudentCourseOfStudent(gradeId);
+    }
 }

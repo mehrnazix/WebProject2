@@ -79,6 +79,10 @@ public class StudentBLO {
     public void deleteStudentCourse(int studentCourseId) throws SQLException {
         studentDAO.deleteStudentCourse(studentCourseId);
     }
+
+    public List<StudentCourseMark> loadTranscriptsOfStudentsByCourseId(int courseId) throws SQLException {
+        return studentDAO.loadTranscriptsOfStudentsByCourseId(courseId);
+    }
 }
 
 

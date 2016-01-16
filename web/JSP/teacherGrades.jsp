@@ -22,15 +22,15 @@
             </tr>
 
             <c:set var="sum" value="${0}"/>
-            <c:forEach var="grade" items="${gradeList}">
-                <c:set var="sum" value="${sum + grade.getScore()}"/>
+            <c:forEach var="transcript" items="${transcripts}">
+                <c:set var="sum" value="${sum + transcript.getScore()}"/>
                 <tr class="pure-table-odd">
-                    <td>${grade.getStudent().toString()}</td>
-                    <td>${grade.getCourse().getCode()}</td>
-                    <td>${grade.getCourse().getName()}</td>
-                    <td>${transgradecript.getScore()}</td>
+                    <td>${transcript.getStudent().toString()}</td>
+                    <td>${transcript.getCourse().getCode()}</td>
+                    <td>${transcript.getCourse().getName()}</td>
+                    <td>${transcript.getScore()}</td>
                     <td>
-                        <input type="button" value="Give up Score" onclick="giveUpeScore(${grade.getStudentCourseMarkId()})">
+                        <input type="button" value="Give up Score" onclick="giveUpeScore(${transcript.getStudentCourseMarkId()})">
                     </td>
                 </tr>
             </c:forEach>

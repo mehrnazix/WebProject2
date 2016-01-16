@@ -4,6 +4,7 @@ import Biz.Course.Course;
 import Biz.Course.CourseBLO;
 import Biz.Student.Student;
 import Biz.Student.StudentBLO;
+import Biz.StudentCourseMark;
 import Biz.Teacher.Teacher;
 import Biz.Teacher.TeacherBLO;
 import Biz.User.User;
@@ -51,7 +52,7 @@ public class AdminController extends BaseController {
             HttpSession session = Request.getSession();
             session.setAttribute("teacherList", teachers);
 
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewTeachers.jsp");
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/adminViewTeachers.jsp");
             view.forward(Request, Response);
 
 
@@ -143,7 +144,7 @@ public class AdminController extends BaseController {
     private void redirectToAddOrEditTeacherJsp(Teacher teacher) throws ServletException, IOException {
 
         Request.setAttribute("teacher", teacher);
-        RequestDispatcher view = Request.getRequestDispatcher("/JSP/addOrEditTeacher.jsp");
+        RequestDispatcher view = Request.getRequestDispatcher("/JSP/adminAddOrEditTeacher.jsp");
         view.forward(Request, Response);
 
     }
@@ -154,11 +155,11 @@ public class AdminController extends BaseController {
         int userId = Integer.parseInt(Request.getParameter("userId"));
         String firstName = Request.getParameter("firstName");
         String lastName = Request.getParameter("lastName");
-        int nationalCode = Integer.parseInt(Request.getParameter("nationalCode"));
+        String nationalCode = Request.getParameter("nationalCode");
         int teacherCode = Integer.parseInt(Request.getParameter("code"));
         String email = Request.getParameter("email");
         int phoneNumber = Integer.parseInt(Request.getParameter("phoneNumber"));
-        int mobileNumber = Integer.parseInt(Request.getParameter("mobileNumber"));
+        String mobileNumber = Request.getParameter("mobileNumber");
         String address = Request.getParameter("address");
 
         User user = new User(userId, firstName, lastName, nationalCode, teacherCode, email,
@@ -184,7 +185,7 @@ public class AdminController extends BaseController {
             HttpSession session = Request.getSession();
             session.setAttribute("studentList", studentList);
 
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewStudents.jsp");
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/adminViewStudents.jsp");
             view.forward(Request, Response);
 
         } catch (SQLException e) {
@@ -273,7 +274,7 @@ public class AdminController extends BaseController {
     private void redirectToAddOrEditStudentJsp(Student student) throws ServletException, IOException {
 
         Request.setAttribute("student", student);
-        RequestDispatcher view = Request.getRequestDispatcher("/JSP/addOrEditStudent.jsp");
+        RequestDispatcher view = Request.getRequestDispatcher("/JSP/adminAddOrEditStudent.jsp");
         view.forward(Request, Response);
     }
 
@@ -283,11 +284,11 @@ public class AdminController extends BaseController {
         int userId = Integer.parseInt(Request.getParameter("userId"));
         String firstName = Request.getParameter("firstName");
         String lastName = Request.getParameter("lastName");
-        Integer nationalCode = Integer.parseInt(Request.getParameter("nationalCode"));
-        Integer studentCode = Integer.parseInt(Request.getParameter("code"));
+        String nationalCode = Request.getParameter("nationalCode");
+        int studentCode = Integer.parseInt(Request.getParameter("code"));
         String email = Request.getParameter("email");
-        Integer phoneNumber = Integer.parseInt(Request.getParameter("phoneNumber"));
-        Integer mobileNumber = Integer.parseInt(Request.getParameter("mobileNumber"));
+        int phoneNumber = Integer.parseInt(Request.getParameter("phoneNumber"));
+        String mobileNumber = Request.getParameter("mobileNumber");
         String address = Request.getParameter("address");
 
         User user = new User(userId, firstName, lastName, nationalCode, studentCode, email,
@@ -311,7 +312,7 @@ public class AdminController extends BaseController {
             HttpSession session = Request.getSession();
             session.setAttribute("courseList", courses);
 
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewCoursesForAdmin.jsp");
+            RequestDispatcher view = Request.getRequestDispatcher("/JSP/adminViewCourses.jsp");
             view.forward(Request, Response);
 
         } catch (SQLException e) {
@@ -416,9 +417,51 @@ public class AdminController extends BaseController {
 
         Request.setAttribute("course", course);
         Request.setAttribute("teachers", teachers);
+        Request.getRequestDispatcher("/JSP/adminAddOrEditCourse.jsp").forward(Request, Response);
+    }
 
-        RequestDispatcher view = Request.getRequestDispatcher("/JSP/addOrEditCourse.jsp");
-        view.forward(Request, Response);
+    public void viewTranscripts() {
+
+        try {
+
+            if (courseBLO == null) {
+                courseBLO = new CourseBLO();
+            }
+
+            List<Course> courseList = courseBLO.loadList();
+
+            Request.setAttribute("courseList", courseList);
+            Request.getRequestDispatcher("/JSP/adminViewTranscripts.jsp").forward(Request, Response);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void viewTranscriptsOfSelectedCourse() {
+        int courseId = Integer.parseInt(Request.getParameter("courseId"));
+
+        try {
+            if (studentBLO == null) {
+                studentBLO = new StudentBLO();
+            }
+
+            List<StudentCourseMark> transcriptList = studentBLO.loadTranscriptsOfStudentsByCourseId(courseId);
+            Request.setAttribute("transcriptList", transcriptList);
+
+            viewTranscripts();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -20,27 +20,42 @@ function deleteRow(teacherId) {
     }
 }
 
-function validateForm() {
+function validate() {
 
     var requiredField = document.getElementsByClassName("required");
     var star = document.getElementsByClassName("required_star");
-    var validationPresentation = document.getElementsByClassName("requiredField");
+    var fieldIsRequired = document.getElementById("fieldIsRequired");
+    var counter = 0;
 
     for (var i = 0; i < requiredField.length; i++) {
-        if (!requiredField[i].value) {
+        if (!requiredField[i].value || requiredField[i].value != 0) {
             star[i].style.visibility = "visible";
-            validationPresentation[0].style.visibility = "visible";
+            counter++;
         }
         else if (requiredField[i].value && star[i].style.visibility == "visible") {
             star[i].style.visibility = "hidden";
-            validationPresentation[0].style.visibility = "hidden";
         }
     }
-    return true;
 
+    var nationalCode = document.getElementById("nationalCode");
+    if (nationalCode && (nationalCode.value.length < 6 || nationalCode.value.length > 6)) {
+
+        var nationalCodeRequired = document.getElementById("nationalCodeRequired");
+        nationalCodeRequired.style.visibility = "visible";
+        return false;
+    }
+
+    if (counter > 0) {
+        fieldIsRequired.style.visibility = "visible";
+        return false;
+    }
+    else {
+        fieldIsRequired.style.visibility = "hidden";
+        return true;
+    }
 }
 
-function giveUpeScore(gradeId){
+function giveUpeScore(gradeId) {
 
     window.location.href = '/teacher/giveUpScore/' + gradeId;
 }

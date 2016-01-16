@@ -5,7 +5,8 @@
 <head>
     <title>Course List</title>
     <link rel="stylesheet" type="text/css" href="/CSS/formsStyle.css">
-    <input type="button" value="Select Course" class="init-button" onclick="window.location.href='/student/selectCourse'">
+    <input type="button" value="Select Course" class="init-button"
+           onclick="window.location.href='/student/selectCourse'">
 </head>
 
 <body>
@@ -18,6 +19,7 @@
                 <th>Course Code</th>
                 <th>Course Name</th>
                 <th>Course Coefficient</th>
+                <th>Teacher Code</th>
                 <th>Teacher Name</th>
                 <th></th>
             </tr>
@@ -29,8 +31,9 @@
                 <tr class="pure-table-odd">
                     <td>${courseOfStudent.getCourse().getCode()}</td>
                     <td>${courseOfStudent.getCourse().getName()}</td>
-                    <td>${courseOfStudentcourseOfStudent.getCourse().getCoefficient()}</td>
-                    <td>${studentCourse.getCourse().getTeacher().toString()}</td>
+                    <td>${courseOfStudent.getCourse().getCoefficient()}</td>
+                    <td>${courseOfStudent.getCourse().getTeacher().getCode()}</td>
+                    <td>${courseOfStudent.getCourse().getTeacher().toString()}</td>
                     <td>
                         <input type="button" value="Remove"
                                onclick="deleteCourse(${courseOfStudent.getStudentCourseMarkId()})">
@@ -42,6 +45,7 @@
                 <th></th>
                 <th></th>
                 <th>${sum}</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>

@@ -119,7 +119,7 @@ public class StudentController extends BaseController {
 
             List<Course> courseList = courseBLO.loadList();
             Request.setAttribute("courseList", courseList);
-            Request.getRequestDispatcher("/JSP/viewCoursesForStudent.jsp").forward(Request, Response);
+            Request.getRequestDispatcher("/JSP/studentViewCourses.jsp").forward(Request, Response);
 
         } catch (ServletException e) {
             e.printStackTrace();

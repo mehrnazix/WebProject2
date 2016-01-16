@@ -50,7 +50,7 @@
 </div>
 
 <div>
-    <a href="\JSP\adminPage.jsp">First Page</a>
+    <a href="\JSP\adminPage.jsp">Home</a>
 </div>
 
 <script type="text/javascript" src="/JS/teacherValidation.js"></script>

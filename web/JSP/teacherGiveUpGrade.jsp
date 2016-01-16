@@ -3,40 +3,40 @@
 
 <html>
 <head>
-    <title>Change Score</title>
+    <title>Give Up Score</title>
     <link rel="stylesheet" type="text/css" href="/CSS/formsStyle.css">
 </head>
 <body>
 <div class="form-add-new">
-    <form method="post" action="/teacher/saveGrade">
-        <input type="hidden" name="id" value="${grade.getStudentCourseMarkId()}">
+    <form method="post" action="/teacher/saveTranscript">
+        <input type="hidden" name="id" value="${transcript.getStudentCourseMarkId()}">
 
         <fieldset>
-            <legend>Edit Grade</legend>
+            <legend>Give Up Score</legend>
 
             <label>
                 <span class="required">Grade Code : </span>
-                <input type="number" readonly name="code" value="${grade.getCourse().getCode()}">
+                <input type="number" readonly name="code" value="${transcript.getCourse().getCode()}">
             </label>
 
             <label>
                 <span class="required">Grade Name :</span>
-                <input type="text" readonly name="name" value="${grade.getCourse().getName()}">
+                <input type="text" readonly name="name" value="${transcript.getCourse().getName()}">
             </label>
 
             <label>
                 <span class="required">Student : </span>
-                <input type="text" readonly name="coefficient" value="${grade.getStudent()}">
+                <input type="text" readonly name="coefficient" value="${transcript.getStudent()}">
             </label>
 
             <label>
                 <span class="required">Score : </span>
-                <input type="number" name="score" value="${grade.getScore()}">
+                <input type="number" name="score" value="${transcript.getScore()}">
             </label>
 
             <label>
                 <input type="submit" value="Save">
-                <input type="button" value="Cancel" onclick="window.location.href='/teacher/teacherGrades'">
+                <input type="button" value="Cancel" onclick="window.location.href='/teacher/grades'">
             </label>
         </fieldset>
     </form>

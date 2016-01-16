@@ -75,7 +75,7 @@ public class TeacherBLO {
         teacherDAO.updateScore(gradeId, score);
     }
 
-//    public StudentCourseMark loadStudentCourseByTeacherId(int gradeId) {
-//        return teacherDAO.loadStudentCourseByTeacherId(gradeId);
-//    }
+    public StudentCourseMark loadTranscriptOfStudent(int gradeId) throws SQLException {
+        return teacherDAO.loadTranscriptOfStudent(gradeId);
+    }
 }

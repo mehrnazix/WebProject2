@@ -9,7 +9,7 @@
 <body>
 
 <div class="form-add-new">
-    <form name="teacherForm" method="post" action="/admin/saveTeacher" onsubmit="return validateForm();">
+    <form name="teacherForm" method="post" action="/admin/saveTeacher" onsubmit="return validate();">
         <input type="hidden" name="teacherId" value="${teacher.getTeacherId()}">
         <input type="hidden" name="userId" value="${teacher.getUserId()}">
 
@@ -32,10 +32,11 @@
 
             <label>
                 <span>National Code : </span>
-                <input class="required" type="number" name="nationalCode"
+                <input class="required" type="number" name="nationalCode" id="nationCode"
                        placeholder="Enter a valid 10 digit national code " value="${teacher.getNationalCode()}">
 
                 <div class="required_star">*</div>
+                <div class ="requiredField" id="nationalCodeRequired">National Code must be equal 6 digit</div>
             </label>
 
             <label>
@@ -58,7 +59,7 @@
 
             <label>
                 <span>Mobile Number : </span>
-                <input class="required" type="number" name="mobileNumber" value="${teacher.getMobileNumber()}">
+                <input class="required" type="text" name="mobileNumber" value="${teacher.getMobileNumber()}">
 
                 <div class="required_star">*</div>
             </label>
@@ -73,7 +74,7 @@
                 <input type="button" value="Cancel" onclick="window.location.href='/admin/viewTeachers'">
             </label>
             <label>
-                <div class="requiredField">* Fields are required!</div>
+                <div class ="requiredField" id="fieldIsRequired">* Fields are required!</div>
             </label>
         </fieldset>
     </form>

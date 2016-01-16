@@ -21,20 +21,19 @@ public class TeacherController extends BaseController {
 
         try {
             if (teacherBLO == null) {
-
                 teacherBLO = new TeacherBLO();
             }
 
+            HttpSession session = Request.getSession();
 
-            int userId = (int) Request.getSession().getAttribute("userId");
-            Teacher teacher = teacherBLO.loadByUserId(userId);
+            if (session.getAttribute("student") == null) {
 
-            Request.getSession().setAttribute("teacherId", teacher.getTeacherId());
-            Request.setAttribute("teacher", teacher);
+                int userId = (int) session.getAttribute("userId");
+                Teacher teacher = teacherBLO.loadByUserId(userId);
+                session.setAttribute("teacher", teacher);
+            }
 
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/teacherPage.jsp");
-            view.forward(Request, Response);
-
+            Request.getRequestDispatcher("/JSP/teacherPage.jsp").forward(Request, Response);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -52,18 +51,13 @@ public class TeacherController extends BaseController {
         if (teacherBLO == null)
             index();
 
-        int userId = (int) Request.getSession().getAttribute("user");
 
         try {
-            Teacher teacher = teacherBLO.loadByUserId(userId);
-            Request.setAttribute("teacher", teacher);
-            Request.getRequestDispatcher("/JSP/profileTeacher.jsp").forward(Request, Response);
+            Request.getRequestDispatcher("/JSP/teacherProfile.jsp").forward(Request, Response);
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -74,11 +68,10 @@ public class TeacherController extends BaseController {
             if (teacherBLO == null)
                 index();
 
-            int teacherId = (int) Request.getSession().getAttribute("teacherId");
-            List<StudentCourseMark> gradeList = teacherBLO.loadStudentCourseListByTeacherId(teacherId);
+            Teacher teacher = (Teacher) Request.getSession().getAttribute("teacher");
+            List<StudentCourseMark> transcripts = teacherBLO.loadStudentCourseListByTeacherId(teacher.getTeacherId());
 
-            HttpSession session = Request.getSession();
-            session.setAttribute("gradeList", gradeList);
+            Request.getSession().setAttribute("transcripts", transcripts);
 
             RequestDispatcher view = Request.getRequestDispatcher("/JSP/teacherGrades.jsp");
             view.forward(Request, Response);
@@ -99,32 +92,31 @@ public class TeacherController extends BaseController {
                 index();
 
             int gradeId = (int) Request.getAttribute("id");
-//            StudentCourseMark grade = teacherBLO.loadStudentCourseByTeacherId(gradeId);
+            StudentCourseMark transcript = teacherBLO.loadTranscriptOfStudent(gradeId);
 
-//            HttpSession session = Request.getSession();
-//            session.setAttribute("grade", grade);
-
-            RequestDispatcher view = Request.getRequestDispatcher("/JSP/viewGrade.jsp");
-            view.forward(Request, Response);
+            Request.getSession().setAttribute("transcript", transcript);
+            Request.getRequestDispatcher("/JSP/teacherGiveUpGrade.jsp").forward(Request, Response);
 
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void saveGrade() {
+    public void saveTranscript() {
 
         try {
 
             if (teacherBLO == null)
                 index();
 
-            int gradeId = (int) Request.getAttribute("id");
+            int transcriptId = Integer.parseInt(Request.getParameter("id"));
             int score = Integer.parseInt(Request.getParameter("score"));
 
-            teacherBLO.updateScore(gradeId, score);
+            teacherBLO.updateScore(transcriptId, score);
 
         } catch (SQLException e) {
             e.printStackTrace();
