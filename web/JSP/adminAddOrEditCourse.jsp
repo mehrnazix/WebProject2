@@ -8,36 +8,40 @@
 </head>
 <body>
 <div class="form-add-new">
-    <form method="post" action="/admin/saveCourse">
+    <form method="post" action="/admin/saveCourse" onsubmit="return formValidation()">
         <input type="hidden" name="id" value="${course.getCourseId()}">
 
         <fieldset>
             <legend>Add New Course</legend>
 
             <label>
-                <span class="required">Course Code : </span>
-                <input type="number" name="code" value="${course.getCode()}">
+                <span>Course Code : </span>
+                <input class="required" type="number" name="code" value="${course.getCode()}">
+                <div class="required_star">*</div>
             </label>
 
             <label>
-                <span class="required">Course Name :</span>
-                <input type="text" name="name" value="${course.getName()}">
+                <span>Course Name :</span>
+                <input class="required" type="text" name="name" value="${course.getName()}">
+                <div class="required_star">*</div>
             </label>
 
             <label>
-                <span class="required">Coefficient : </span>
-                <input type="number" name="coefficient" value="${course.getCoefficient()}">
+                <span>Coefficient : </span>
+                <input class="required" type="number" name="coefficient" value="${course.getCoefficient()}">
+                <div class="required_star">*</div>
             </label>
 
             <label>
-                <span class="required">Teacher :</span>
-                <select name="teacherId">
+                <span>Teacher :</span>
+                <select name="teacherId" class="required">
                     <option selected value="${course.getTeacherId()}">${course.getTeacher()}</option>
                 <c:forEach var="teacher" items="${teachers}">
                     <option value="${teacher.getTeacherId()}">${teacher}</option>
                 </c:forEach>
 
                 </select>
+                <div class="required_star">*</div>
             </label>
 
             <label>
@@ -45,6 +49,11 @@
                 <input type="button" value="Cancel" onclick="window.location.href='/admin/viewCourses'">
 
             </label>
+
+            <label>
+                <div class="requiredField" id="fieldIsRequired">All the fields are required!</div>
+            </label>
+
         </fieldset>
     </form>
 </div>
