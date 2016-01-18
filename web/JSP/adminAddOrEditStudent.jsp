@@ -1,5 +1,5 @@
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -31,17 +31,19 @@
 
             <label>
                 <span>National Code : </span>
-                <input class="required" type="number" name="nationalCode"
+                <input class="required" type="number" name="nationalCode" id="nationalCode"
                        placeholder="Enter a valid 10 digit national code " value="${student.getNationalCode()}">
 
                 <div class="required_star">*</div>
+                <div class="requiredField" id="validNationalCode">National Code must be equal 10 digit</div>
             </label>
 
             <label>
                 <span>Student Code : </span>
-                <input class="required" type="number" name="code" value="${student.getCode()}">
+                <input class="required" type="number" name="code" value="${student.getCode()}" id="studentCode">
 
                 <div class="required_star">*</div>
+                <div class="requiredField" id="validStudentCode">Student Code must be equal 6 digit</div>
             </label>
 
             <label>
@@ -52,14 +54,20 @@
 
             <label>
                 <span>Phone Number : </span>
-                <input type="number" name="phoneNumber" value="${student.getPhoneNumber()}">
+                <input type="number" name="phoneNumber" value="${student.getPhoneNumber()}" id="phoneNumber">
+
+                <div class="requiredField" id="validPhone">Phone number must be equal 8 digit</div>
             </label>
 
             <label>
                 <span>Mobile Number : </span>
-                <input class="required" type="number" name="mobileNumber" value="${student.getMobileNumber()}">
+                <input class="required" type="number" name="mobileNumber" value="${student.getMobileNumber()}"
+                       id="mobileNumber">
 
                 <div class="required_star">*</div>
+                <div class="requiredField" id="validMobileNumber">Mobile number must be equal 10 digit and start with
+                    0
+                </div>
             </label>
 
             <label>
@@ -72,7 +80,7 @@
                 <input type="button" value="Cancel" onclick="window.location.href='/admin/viewStudents'">
             </label>
             <label>
-                <div class="requiredField">* Fields are required!</div>
+                <div class="requiredField" id="fieldIsRequired">* Fields are required!</div>
             </label>
         </fieldset>
     </form>

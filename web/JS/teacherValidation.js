@@ -28,7 +28,7 @@ function validate() {
     var counter = 0;
 
     for (var i = 0; i < requiredField.length; i++) {
-        if (!requiredField[i].value || requiredField[i].value != 0) {
+        if (!requiredField[i].value || requiredField[i].value == 0) {
             star[i].style.visibility = "visible";
             counter++;
         }
@@ -37,22 +37,58 @@ function validate() {
         }
     }
 
-    var nationalCode = document.getElementById("nationalCode");
-    if (nationalCode && (nationalCode.value.length < 6 || nationalCode.value.length > 6)) {
-
-        var nationalCodeRequired = document.getElementById("nationalCodeRequired");
-        nationalCodeRequired.style.visibility = "visible";
-        return false;
-    }
-
     if (counter > 0) {
         fieldIsRequired.style.visibility = "visible";
         return false;
     }
-    else {
-        fieldIsRequired.style.visibility = "hidden";
-        return true;
+
+    var nationalCode = document.getElementById("nationalCode").value;
+    var validNationalCode = document.getElementById("validNationalCode");
+    if (nationalCode && nationalCode.charAt(0) != 0 && (nationalCode.length != 10)) {
+
+        validNationalCode.style.visibility = "visible";
+        counter++;
+    } else {
+        validNationalCode.style.visibility = "hidden";
     }
+
+    var teacherCode = document.getElementById("teacherCode").value;
+    var validTeacherCode = document.getElementById("validTeacherCode");
+    if (teacherCode.length != 6) {
+
+        validTeacherCode.style.visibility = "visible";
+        counter++;
+    } else {
+        validTeacherCode.style.visibility = "hidden"
+    }
+
+    var phoneNumber = document.getElementById("phoneNumber").value;
+    var validPhone = document.getElementById("validPhone");
+    if (phoneNumber.length != 8) {
+
+        validPhone.style.visibility = "visible";
+        counter++;
+    }
+    else {
+        validPhone.style.visibility = "hidden";
+    }
+
+    var mobileNumber = document.getElementById("mobileNumber").value;
+    var validMobileNumber = document.getElementById("validMobileNumber");
+    if (mobileNumber.length != 11 || mobileNumber.charAt(0) != 0) {
+
+        validMobileNumber.style.visibility = "visible";
+        counter++;
+    }
+    else {
+        validMobileNumber.style.visibility = "hidden"
+    }
+
+    if (counter > 0) {
+        return false;
+    }
+    return true;
+
 }
 
 function giveUpeScore(gradeId) {

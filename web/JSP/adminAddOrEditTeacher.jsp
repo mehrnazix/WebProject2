@@ -32,18 +32,19 @@
 
             <label>
                 <span>National Code : </span>
-                <input class="required" type="number" name="nationalCode" id="nationCode"
+                <input class="required" type="number" name="nationalCode" id="nationalCode"
                        placeholder="Enter a valid 10 digit national code " value="${teacher.getNationalCode()}">
 
                 <div class="required_star">*</div>
-                <div class ="requiredField" id="nationalCodeRequired">National Code must be equal 6 digit</div>
+                <div class ="requiredField" id="validNationalCode">National Code must be equal 10 digit</div>
             </label>
 
             <label>
                 <span>Teacher Code : </span>
-                <input class="required" type="number" name="code" value="${teacher.getCode()}">
+                <input class="required" type="number" name="code" value="${teacher.getCode()}" id="teacherCode">
 
                 <div class="required_star">*</div>
+                <div class ="requiredField" id="validTeacherCode">Teacher Code must be equal 6 digit</div>
             </label>
 
             <label>
@@ -54,14 +55,18 @@
 
             <label>
                 <span>Phone Number : </span>
-                <input type="number" name="phoneNumber" value="${teacher.getPhoneNumber()}">
+                <input type="number" name="phoneNumber" value="${teacher.getPhoneNumber()}" id="phoneNumber">
+                <div class ="requiredField" id="validPhone">Phone number must be equal 8 digit</div>
+
             </label>
 
             <label>
                 <span>Mobile Number : </span>
-                <input class="required" type="text" name="mobileNumber" value="${teacher.getMobileNumber()}">
+                <input class="required" type="text" name="mobileNumber" value="${teacher.getMobileNumber()}" id="mobileNumber">
 
                 <div class="required_star">*</div>
+                <div class ="requiredField" id="validMobileNumber">Mobile number must be equal 10 digit and start with 0</div>
+
             </label>
 
             <label>
