@@ -17,7 +17,7 @@ public class TeacherController extends BaseController {
     TeacherBLO teacherBLO;
     ChangePasswordBLO changePasswordBLO;
 
-    public void index() {
+    public void Index() {
 
         try {
             if (teacherBLO == null) {
@@ -49,7 +49,7 @@ public class TeacherController extends BaseController {
     public void profile() {
 
         if (teacherBLO == null)
-            index();
+            Index();
 
 
         try {
@@ -66,7 +66,7 @@ public class TeacherController extends BaseController {
         try {
 
             if (teacherBLO == null)
-                index();
+                Index();
 
             Teacher teacher = (Teacher) Request.getSession().getAttribute("teacher");
             List<StudentCourseMark> transcripts = teacherBLO.loadStudentCourseListByTeacherId(teacher.getTeacherId());
@@ -89,7 +89,7 @@ public class TeacherController extends BaseController {
 
         try {
             if (teacherBLO == null)
-                index();
+                Index();
 
             int gradeId = (int) Request.getAttribute("id");
             StudentCourseMark transcript = teacherBLO.loadTranscriptOfStudent(gradeId);
@@ -111,7 +111,7 @@ public class TeacherController extends BaseController {
         try {
 
             if (teacherBLO == null)
-                index();
+                Index();
 
             int transcriptId = Integer.parseInt(Request.getParameter("id"));
             int score = Integer.parseInt(Request.getParameter("score"));
@@ -155,7 +155,7 @@ public class TeacherController extends BaseController {
         }
 
         changePasswordBLO.save();
-        index();
+        Index();
     }
 
 }

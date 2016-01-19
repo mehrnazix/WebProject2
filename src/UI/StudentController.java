@@ -20,7 +20,7 @@ public class StudentController extends BaseController {
     ChangePasswordBLO changePasswordBLO;
     CourseBLO courseBLO;
 
-    public void index() {
+    public void Index() {
 
         try {
 
@@ -54,7 +54,7 @@ public class StudentController extends BaseController {
     public void profile() {
 
         if (studentBLO == null)
-            index();
+            Index();
 
         try {
             Request.getRequestDispatcher("/JSP/studentProfile.jsp").forward(Request, Response);
@@ -70,7 +70,7 @@ public class StudentController extends BaseController {
 
         try {
             if (studentBLO == null)
-                index();
+                Index();
 
             Student student = (Student) Request.getSession().getAttribute("student");
             List<StudentCourseMark> transcripts = studentBLO.loadCoursesOfStudentByStudentId(student.getStudentId());
@@ -92,7 +92,7 @@ public class StudentController extends BaseController {
 
         try {
             if (studentBLO == null)
-                index();
+                Index();
 
             Student student = (Student) Request.getSession().getAttribute("student");
             List<StudentCourseMark> courseListOfStudent = studentBLO.loadCoursesOfStudentByStudentId(student.getStudentId());
@@ -112,7 +112,7 @@ public class StudentController extends BaseController {
 
         try {
             if (studentBLO == null)
-                index();
+                Index();
 
             if (courseBLO == null)
                 courseBLO = new CourseBLO();
@@ -136,7 +136,7 @@ public class StudentController extends BaseController {
     public void addStudentCourse() {
 
         if (studentBLO == null)
-            index();
+            Index();
 
         int courseId = (int) Request.getAttribute("id");
         Student student = (Student) Request.getSession().getAttribute("student");
@@ -154,7 +154,7 @@ public class StudentController extends BaseController {
     public void deleteCourse() {
 
         if (studentBLO == null)
-            index();
+            Index();
 
         int studentCourseId = (int) Request.getAttribute("id");
 
@@ -198,7 +198,7 @@ public class StudentController extends BaseController {
         }
 
         changePasswordBLO.save();
-        index();
+        Index();
     }
 
 }

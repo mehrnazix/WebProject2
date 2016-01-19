@@ -19,7 +19,7 @@
         <input type="button" class="button_in_start_page" value="Transcripts" onclick="window.location.href='/student/transcripts'">
         <input type="button" class="button_in_start_page" value="Choose Courses" onclick="window.location.href='/student/chooseCourses'">
         <input type="button" class="button_in_start_page" value="Change Password" onclick="window.location.href='/student/changePassword'">
-        <input type="button" class="button_in_start_page" value="Logout" onclick="window.location.href='/index/logout'">
+        <input type="button" class="button_in_start_page" value="Logout" onclick="window.location.href='/Index/logout'">
 
     </fieldset>
 </div>

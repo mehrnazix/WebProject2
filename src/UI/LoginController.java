@@ -47,7 +47,7 @@ public class LoginController extends BaseController {
                         url = "/student";
                         break;
                     default:
-                        url = "/index";
+                        url = "/Index";
                 }
 
                 try {

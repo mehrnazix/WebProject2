@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <welcome-file-list>
-        <welcome-file>\HTML\index.html</welcome-file>
+        <welcome-file>\HTML\Index.html</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -13,7 +13,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
-        <url-pattern>/index/*</url-pattern>
+        <url-pattern>/Index/*</url-pattern>
     </servlet-mapping>
 
 <servlet>
