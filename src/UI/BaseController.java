@@ -40,7 +40,7 @@ public class BaseController extends HttpServlet {
                 Request.setAttribute("id", entityId);
             }
         } else {
-            actionName = "index";
+            actionName = "Index";
         }
 
 

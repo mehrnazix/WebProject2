@@ -14,7 +14,7 @@ public class TeacherController extends BaseController {
     TeacherBLO teacherBLO;
     ChangePasswordBLO changePasswordBLO;
 
-    public void index() {
+    public void Index() {
 
         try {
             if (teacherBLO == null) {
@@ -40,7 +40,7 @@ public class TeacherController extends BaseController {
     public void profile() {
 
         if (teacherBLO == null)
-            index();
+            Index();
 
         int userId = (int) Request.getSession().getAttribute("user");
 
@@ -88,7 +88,7 @@ public class TeacherController extends BaseController {
         }
 
         changePasswordBLO.save();
-        index();
+        Index();
     }
 
 }

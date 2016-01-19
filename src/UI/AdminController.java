@@ -22,7 +22,7 @@ public class AdminController extends BaseController {
     CourseBLO courseBLO;
 
     /*main page: use in url*/
-    public void index() {
+    public void Index() {
 
         try {
             RequestDispatcher view = Request.getRequestDispatcher("/JSP/adminPage.jsp");
