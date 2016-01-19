@@ -16,19 +16,25 @@
 
             <label>
                 <span>Course Code : </span>
-                <input class="required" type="number" name="code" value="${course.getCode()}">
+                <input class="required" type="number" name="code" value="${course.getCode()}" id="courseCode">
+
+                <div class="requiredField" id="courseCodeRange">Length of Course Code must be 3 digit</div>
                 <div class="required_star">*</div>
             </label>
 
             <label>
                 <span>Course Name :</span>
                 <input class="required" type="text" name="name" value="${course.getName()}">
+
                 <div class="required_star">*</div>
             </label>
 
             <label>
                 <span>Coefficient : </span>
-                <input class="required" type="number" name="coefficient" value="${course.getCoefficient()}">
+                <input class="required" type="number" name="coefficient" value="${course.getCoefficient()}"
+                       id="coefficient">
+
+                <div class="requiredField" id="coefficientValidation" hidden>Coefficient must be less than 4</div>
                 <div class="required_star">*</div>
             </label>
 
@@ -36,11 +42,12 @@
                 <span>Teacher :</span>
                 <select name="teacherId" class="required">
                     <option selected value="${course.getTeacherId()}">${course.getTeacher()}</option>
-                <c:forEach var="teacher" items="${teachers}">
-                    <option value="${teacher.getTeacherId()}">${teacher}</option>
-                </c:forEach>
+                    <c:forEach var="teacher" items="${teachers}">
+                        <option value="${teacher.getTeacherId()}">${teacher}</option>
+                    </c:forEach>
 
                 </select>
+
                 <div class="required_star">*</div>
             </label>
 

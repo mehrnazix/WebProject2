@@ -21,7 +21,7 @@ function deleteRow(courseId) {
     }
 }
 
-function formValidation(){
+function formValidation() {
 
     var requiredFields = document.getElementsByClassName("required");
     var stars = document.getElementsByClassName("required_star");
@@ -36,6 +36,31 @@ function formValidation(){
         else if (requiredFields[i].value && stars[i].style.visibility == "visible") {
             stars[i].style.visibility = "hidden";
         }
+    }
+
+    if (counter > 0) {
+        fieldIsRequired.style.visibility = "visible";
+        return false;
+    }
+
+    var courseCodeRangeValidation = document.getElementById("courseCodeRange");
+    var courseCode = document.getElementById("courseCode").value;
+    if (courseCode && courseCode.length != 3) {
+        courseCodeRangeValidation.style.visibility = "visible";
+        counter++;
+    }
+    else {
+        courseCodeRangeValidation.style.visibility = "hidden";
+    }
+
+    var coefficientValidation = document.getElementById("coefficientValidation");
+    var coefficient = document.getElementById("courseCode").value;
+    if (coefficient && coefficient.length > 4) {
+        coefficientValidation.style.visibility = "visible";
+        counter++;
+    }
+    else {
+        coefficientValidation.style.visibility = "hidden";
     }
 
     if (counter > 0) {

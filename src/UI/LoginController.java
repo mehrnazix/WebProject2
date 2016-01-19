@@ -81,7 +81,7 @@ public class LoginController extends BaseController {
         }
 
         try {
-            Request.getRequestDispatcher("/HTML/index.html").forward(Request, Response);
+            Request.getRequestDispatcher("/HTML/Index.html").forward(Request, Response);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ServletException e) {

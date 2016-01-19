@@ -33,13 +33,13 @@ public class LoginFilter implements Filter {
         HttpSession session = ((HttpServletRequest) servletRequest).getSession(false);
 
         if (session == null) {
-            ((HttpServletResponse) servletResponse).sendRedirect("HTML/index.html");
+            ((HttpServletResponse) servletResponse).sendRedirect("HTML/Index.html");
         }
 
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            ((HttpServletResponse) servletResponse).sendRedirect("HTML/index.html");
+            ((HttpServletResponse) servletResponse).sendRedirect("HTML/Index.html");
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
